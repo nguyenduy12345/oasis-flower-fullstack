@@ -1,0 +1,128 @@
+@import '/src/styles/variables.scss';
+i.close__filter{
+    display: none;
+}
+i.filter{
+    display: none;
+}
+.filter{
+    margin-top: 10px;
+    background: var(--background-filter);
+    p.filter__item{
+        color: var(--main-text);
+    }
+    &__item{
+        width: 100%;
+        font-weight: bold;
+        text-transform: uppercase;
+        cursor: pointer;
+        margin-top: 10px;
+        padding: 0 30px 0 20px;
+        font-size: $font-size-des;
+        li{
+            background: $background-color;
+            margin-bottom: 5px;
+            font-size: 0.8rem;
+            font-weight: normal;
+            text-align: center;
+        }
+        li:hover{
+            background: $background-color2;
+        }
+        p{
+            margin: 0;
+            color: var(--main-text);
+        }
+        ul{
+            margin: 0;
+            padding: 0;
+        }
+    }
+    &__item:first-child:hover{
+        background: $background-color;
+    }
+    &__item:nth-child(4){
+        button{
+            width: 100%;
+            margin-bottom: 5px;
+            font-size: 0.8rem;
+            border: none;
+            &:hover{
+                background: $background-color2;
+            }
+        }
+    }
+    &__item:last-child{
+        ul{
+            padding: 0;
+        }
+        input{
+            width: 100%;
+            margin-bottom: 5px;
+            padding: 0 10px;
+            font-size: 0.8rem;
+            border: none;
+            outline: none;
+        }
+        label{
+            font-size: 0.7rem;
+            font-weight: normal;
+        }
+        button{
+            width: 100%;
+            margin-bottom: 5px;
+            font-size: 0.8rem;
+            border: none;
+            &:hover{
+                background: $background-color2;
+            }
+        }
+    }
+}
+@media( max-width: 568px){
+    i.filter{
+        margin-right: 20px !important;
+    }
+}
+@media (max-width: 992px){
+    i.filter{
+        width: max-content;
+        display: block;
+        z-index: 9;
+        font-size: 1rem;
+        text-align: right;
+        margin: 18px 40px 0 0;
+        background-color: $white;
+        &:hover > .fitler{
+            display: block;
+        }
+    }
+    i.close__filter{
+        display: block;
+        position: absolute;
+        right: 40px;
+        top: 10px;
+        font-size: 1.2rem;
+        color: var(--main-text)
+    }
+    .filter{
+        display: none;
+        position: absolute;
+        z-index: 9;
+        background: var(--main-background);
+        top: 10px;
+        right: 0;
+        &__item{
+            padding: 0 30px;
+        }
+        li, button{
+            width: 200px !important;
+        }
+        button{
+            display: block;
+        }
+        input{
+            width: 200px !important;
+        }
+    }
+}

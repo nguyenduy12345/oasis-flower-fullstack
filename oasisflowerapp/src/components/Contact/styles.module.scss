@@ -1,0 +1,57 @@
+@import '/src/styles/variables.scss';
+@mixin flex-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.contact{
+    position: fixed;
+    right: 15px;
+    bottom: 60px;
+    height: 160px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    &__icon{
+        @include flex-center();
+        // height: 2.7rem;
+        // width: 2.5rem;
+        i{
+            font-size: 1.6rem;
+            cursor: pointer;
+            animation: scale 1s linear infinite;
+            color: var(--main-text);
+            &:hover{
+                font-size: 1.8rem;
+                transition: 0.2s;
+            }
+        }
+    }
+    @keyframes scale {
+        0%{
+            scale: 1;
+        }
+        50%{
+            scale: 1.1;
+        }
+        100%{
+            scale: 1;
+        }
+    }
+}
+@media (max-width:768px){
+    .contact{
+        height: 135px;
+        right: 35px !important;
+        &__icon{
+            i{
+                font-size: 1.3rem;
+            }
+        }
+    }
+}
+@media (max-width:992px){
+    .contact{
+        right: 5px;
+    }
+}

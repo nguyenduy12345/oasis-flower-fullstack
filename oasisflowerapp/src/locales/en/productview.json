@@ -1,0 +1,10 @@
+{
+    "price": "Price: ",
+    "quantity": "Quantity:",
+    "size": "Size:",
+    "accessories": "Accessories:",
+    "notes": "Notes:",
+    "notes-input":"Write notes...",
+    "button": "Add to cart",
+    "message": "Please login!"
+}

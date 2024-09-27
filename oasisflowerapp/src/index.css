@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com');
+@import url('https://fonts.gstatic.com');
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
+@import './styles/variables.scss';
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+:root{
+  --main-background: #fff;
+  --background-title: #FFC0CB;
+  --background-nav: #edf3ef;
+  --background-filter: #fff;
+  --title-color: black;
+  --main-text: black;
+  --border-color: black;
+
+}
+[data-theme="dark"]{
+  --main-background: black;
+  --backgroud-color: black;
+  --background-title:#FFC0CB;
+  --background-filter: black;
+  --title-color: black;
+  --background-nav: black;
+  --main-text:  #fff;
+  --border-color: #fff;
+}
+i{
+    cursor: pointer;
+}
+body{
+    font-size: 62.5%;
+    overflow-x: hidden;
+}
+html{
+    font-size: 1.6rem;
+    font-family: "Josefin Sans", sans-serif;
+}
+ul{ list-style: none;}
+a{ text-decoration: none; cursor: pointer;}
+img{ cursor: pointer;}  
+ /* width */
+::-webkit-scrollbar {
+    width: 7px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    border-radius: 10px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: black; 
+    border-radius: 10px;
+  } 
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #dcc5bb; 
+  }

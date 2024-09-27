@@ -1,0 +1,14 @@
+{
+    "img": {
+        "title": "Chào mừng bạn tới FLORAL OASIS",
+        "des": "Floral oasis là nơi bạn có thể chọn hoa, bánh và những món quà ý nghĩa htmlDành cho người thân, bạn bè"
+    },
+    "form": {
+        "title": "Đăng ký",
+        "name": "tài khoản",
+        "phone": "số điện thoại",
+        "password": "mật khẩu",
+        "address": "địa chỉ",
+        "button": "gửi"
+    }
+}

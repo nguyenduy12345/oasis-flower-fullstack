@@ -1,0 +1,61 @@
+@import '/src/styles/variables.scss';
+@mixin flex-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#back_to_top{
+    @include flex-center();
+    position: fixed;
+    right: 20px;
+    bottom: 10px;
+    z-index: 11111;
+    border-radius: 50%;
+    background-color: $background-color2;
+    opacity: 0.4;
+    width: 35px;
+    height: 35px;
+    animation: scale 1s ease infinite;
+    cursor: pointer;
+    &::before{
+        width: 45px;
+        height: 45px;
+        border: $border1;
+        position: fixed;
+        z-index: 1;
+        border-radius: 50%;
+        background-color: $background-color2;
+        opacity: 0.4;
+        content: "";
+        filter: blur(2px);
+        animation: scale 1s 0.2s ease infinite;
+    }
+    @keyframes scale{
+        0%{
+            transform: scale(1, 1);
+        }
+        50%{
+            transform: scale(1.2, 1.2);
+        }
+        0%{
+            transform: scale(1, 1);
+        }
+    }
+    i{
+        font-weight: bold;
+        font-size: 0.8rem;
+    }
+    &:hover{
+        background-color: $color-text;
+        color: $white;
+    }
+}
+@media (max-width: 768px){}
+    #back_to_top{
+        right: 35px !important;
+    }
+@media (min-width: 768px){
+    #back_to_top{
+        right: 18px !important;
+    }
+}

@@ -1,0 +1,27 @@
+.icon__stylelist{
+    button{
+        width: 60px;
+        height: 60px;
+        position: absolute;
+        top: 10px;
+        right: 5px;
+        color: var(--main-text);
+    }
+    button:first-child{
+        right: 72px;
+        color: var(--main-text);
+    }
+    button:nth-child(2){
+        top: 12px;
+        color: var(--main-text);
+    }
+}
+@media (max-width: 992px){
+    button:first-child{
+        left: 220px;
+    }
+    button:nth-child(2){
+        left: 280px;
+        top: 11px;
+    }
+}

@@ -1,0 +1,99 @@
+@import '/src/styles/variables.scss';
+@mixin flex-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.weather{
+    position: absolute;
+    right: 20px;
+    top: 3px;
+    display: flex;
+    width: 300px;
+    height: 40px;
+    border-bottom: 1px solid var(--main-text);
+    font-size: 0.7rem;
+    cursor: pointer;
+    color: var(--main-text);
+    &__info{
+        display: flex;
+        width: 90%;
+        padding-left: 0;
+        margin-bottom: 0;
+        margin-right: 20px;
+        li:first-child{
+            overflow: hidden;
+            padding-left: 5px;
+            font-weight: 600;
+        }
+        li{
+            @include flex-center();
+            padding-right: 10px;
+            i{
+                font-size: $font-size-des;
+            }
+        }
+    }
+    &__time{
+        @include flex-center();
+    }
+    &__icon--state{
+        position: absolute;
+        right: 3px;
+        top: calc(50% - 10px)
+    }
+    &__box{
+        width: 300px;
+        position: absolute;
+        left: -130px;
+        top: 45px;
+        background-color: var(--main-background);
+        border-radius: $border-radius-small;
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        ul{
+            padding: 0;
+            margin: 0;
+        }
+        ul:first-child{
+            height: 80%;
+            input{
+                outline: none;
+                border: none;
+                border-bottom: $border1;
+                width: 100%;
+                padding: 0 10px;
+                margin-bottom: 10px;
+            }
+            li{
+                @include flex-center();
+                text-align: center;
+            }
+            i{
+                font-size: 3rem;
+                display: block;
+            }
+            p{
+                font-size: $font-size-des;
+                color: var(--main-text);
+                font-weight: 600;
+                margin-bottom: 0;
+            }
+        }
+    }
+    &__detail{
+        display: flex;
+        justify-content: space-between;
+        text-align: center;
+        margin-top: 15px;
+        li{
+            flex-basis: 87px;
+        }
+    }
+}
+@media (max-width: 768px){
+    .weather{
+        display: none;
+    }
+}

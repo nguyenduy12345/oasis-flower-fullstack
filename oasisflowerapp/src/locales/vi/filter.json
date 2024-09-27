@@ -1,0 +1,20 @@
+{   
+    "all": "Hiện tất cả",
+    "type":"Loại",
+    "alpha":{
+        "title":"Sắp xếp theo chữ cái đầu",
+        "charAZ": "Theo chữ cái A - Z",
+        "charZA": "Theo chữ cái Z - A"
+    },
+    "price" :{
+        "title":"Sắp xếp giá tiền",
+        "up": "Giá tăng dần",
+        "down": "Giá giảm dần"
+    },
+    "price-range":{
+        "title": "Khoảng giá",
+        "min": "tối thiểu",
+        "max": "tối đa",
+        "button": "Tìm kiếm"
+    }
+}

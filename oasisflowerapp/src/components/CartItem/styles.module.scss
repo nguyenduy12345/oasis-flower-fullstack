@@ -1,0 +1,71 @@
+@import '/src/styles/variables.scss';
+@mixin flex-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.cart__item{
+    display: flex;
+    justify-content: space-between;
+    padding: 0 0 5px 0;
+    margin-bottom: 5px;
+    border-bottom: $border1;
+    li{
+        @include flex-center();
+        text-align: center;
+        padding: 0;
+        font-weight: 600;
+        font-size: 0.7rem;
+        span{
+            font-size: 0.85rem;
+            cursor: pointer;
+            height: 40px;
+            display: flex;
+            align-items: end;
+            
+        }
+        input{
+            width: 100%;
+        } 
+    }
+    i{
+        color: $color-text;
+    }
+    .icon{
+        font-size: $font-size;
+        border: none;
+        background-color: white;
+    }
+    .quantity{
+        font-size: $font-size-des;
+        padding: 0 9px;
+    }
+    &:hover{
+        // background-color: $background-color;
+    }
+    &>li:nth-child(1){
+        padding: 0 5px;
+        flex-basis: 120px;
+        overflow: hidden;
+    }
+    &>li:nth-child(2){
+        flex-basis: 120px;
+    }
+    &>li:nth-child(3){
+        flex-basis: 80px;
+        display: flex;
+        justify-content: space-around;
+    }
+    &>li:nth-child(4){
+        flex-basis: 100px;
+    }
+    &>li:nth-child(5){
+        flex-basis: 68px;
+    }
+    &>li:nth-child(6){
+        flex-basis: 40px;
+    }
+    img{
+        width: 100%;
+    }
+}

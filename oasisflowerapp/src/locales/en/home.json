@@ -1,0 +1,41 @@
+{
+    "list-page-product": {
+        "page-flowers": "flower",
+        "page-cakes": "cakes",
+        "page-accessories": "accessories"
+    },
+    "events":{
+        "title": "CORPORATE & EVENTS",
+        "des": "From weddings and large scale events to weekly office flowers, our team are here to bring your ideas to life in floral",
+        "item-1": {
+            "title": "WEDDINGS",
+            "des": "If you are in search of the very best in Luxury flowers for your wedding celebrations, our team of industry-leading ever florists are on band to help.",
+            "link": "find out more"
+        },
+        "item-2": {
+            "title": "EVENTS & ACTIVATIONS",
+            "des": "If you are in search of the very best in Luxury flowers for your wedding celebrations, our team of industry-leading ever florists are on band to help.",
+            "link": "find out more"
+        },
+        "item-3": {
+            "title": "CONTRACTS",
+            "des": "If you are in search of the very best in Luxury flowers for your wedding celebrations, our team of industry-leading ever florists are on band to help.",
+            "link": "find out more"
+        },
+        "button": "see more"
+    },
+    "about": {
+        "title": "LUXURY FLOWER DELIVERY: ABOUT ME",
+        "des": "At here, we deliver fresh, seasonal, high-quality flowers to your doorstep, with reliable flower delivery options 5 days a week, including same-day delivery and next-day delivery across the East Coast. Order flowers online with us, and you will always receive exquisite flowers, whether they are for your home or sent as a gift. Discover our range.",
+        "item-1": {
+            "title": "PLANET-KIND ARRANGEMENTS",
+            "des": "At FLOWERBX, we are experts in exclusive, hard-to-find flower varieties. Our bouquets always feature one type of flower, with no filler and no fuss. We source flowers straight from their growers, which means our quality is second to none and ensures flowers last as long as possible.",
+            "link": "Shop now"
+        },
+        "item-2": {
+            "title": "LUXURY FLOWERS",
+            "des": "Our florals and foliage always put the Earth first with a cut-to-order, zero-waste model, and carbon-neutral flower delivery. Our packaging is made from recycled materials and is compostable, and we’re forever innovating to improve all areas of our product and supply chain.",
+            "link": "Discover our mission"
+        }
+    }
+}

@@ -1,0 +1,33 @@
+@mixin flex-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.message{
+    @include flex-center();
+    width: 250px;
+    position: fixed;
+    top:-100px;
+    left: calc(50% - 125px);
+    z-index: 999999;
+    padding: 7px;
+    border-radius: 20px;
+    border: 1px solid var(--main-text);
+    color: var(--main-text);
+    background-color: var(--main-background);
+    animation: Slide 1.3s;
+    i{
+        margin-right: 10px;
+    }
+}
+@keyframes Slide{
+    0%{
+        top: 0px;
+    }
+    50%{
+        top: 30px
+    }
+    100%{
+        top: -100px;
+    }
+}

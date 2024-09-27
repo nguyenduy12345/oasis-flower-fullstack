@@ -1,0 +1,13 @@
+@import '/src/styles/variables.scss';
+
+.form__change{
+    width:150px;
+    height: 40px;
+    font-size: 0.7rem;
+    margin-left: 50px;
+}
+@media (max-width: 992px){
+    .form__change{
+        margin-left: 10px;
+    } 
+}

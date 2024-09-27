@@ -1,0 +1,25 @@
+@import '/src/styles/variables.scss';
+.error{
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    a{
+        color: $color-text;
+        &:hover{
+            border-bottom: $border;
+        }
+    }
+    p{
+        font-size: 1.3rem;
+        color: red;
+        font-weight: bold;
+        position: absolute;
+        top: 35%;
+    }
+    img{
+        width: 45%;
+        height: 550px;
+    }
+}

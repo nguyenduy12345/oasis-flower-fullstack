@@ -1,0 +1,10 @@
+{
+    "price": "Giá tiền: ",
+    "quantity": "Số lượng:",
+    "size": "Kích cỡ:",
+    "accessories": "Phụ kiện:",
+    "notes": "Ghi chú:",
+    "notes-input":"Ghi chú...",
+    "button": "Thêm vào giỏ hàng",
+    "message": "Vui lòng đăng nhập!"
+}

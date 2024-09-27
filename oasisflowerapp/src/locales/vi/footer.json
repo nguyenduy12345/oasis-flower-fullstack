@@ -1,0 +1,17 @@
+{
+    "tax": "Mã số thuế",
+    "address": "Địa chỉ",
+    "add": "Tầng 8 tòa R4 - 72A Nguyễn Trãi - Thanh Xuân - Hà Nội",
+    "company": {
+        "item-1": "Về chúng tôi",
+        "item-2": "Tuyển dụng",
+        "item-3": "Tin tức",
+        "item-4": "Liên hệ"
+    },
+    "connect": "CONNECT WITH US",
+    "infomation": "Thông tin cửa hàng",
+    "info": {
+        "info-1": "12 Trang Thi Street, Hang Trong, Hoan Kiem, Ha Noi",
+        "info-2": "72A Nguyen Trai Street, Thanh Xuan, Ha Noi"
+    }
+}

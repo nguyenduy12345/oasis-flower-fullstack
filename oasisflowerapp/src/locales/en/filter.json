@@ -1,0 +1,21 @@
+{
+    "all": "all",
+    "type":"type",
+    "alpha":{
+        "title":"Alphabet",
+        "charAZ": "Character A - Z",
+        "charZA": "Character Z - A"
+    },
+    "price" :{
+        "title": "price",
+        "up": "Price ascending",
+        "down": "Price decreasing"
+    },
+    "price-range":{
+        "title": "price range",
+        "min": "min $",
+        "max": "max $",
+        "button": "Search"
+    }
+    
+}

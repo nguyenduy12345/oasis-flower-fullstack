@@ -1,0 +1,9 @@
+export {default as About} from "./About";
+export {default as Accessories} from "./Accessories";
+export {default as Cakes} from "./Cakes";
+export {default as Flowers} from "./Flowers";
+export {default as Home} from "./Home";
+export {default as Occasions} from "./Occasions";
+export {default as Register} from "./Register";
+export {default as ErrorPage} from "./ErrorPage";
+export {default as Profile} from './Profile'

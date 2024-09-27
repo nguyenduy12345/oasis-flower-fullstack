@@ -1,0 +1,20 @@
+{
+    "nav": {
+        "home": "HOME",
+        "nav-1": "FLOWERS",
+        "nav-2": "CAKES & SWEETS",
+        "nav-3": "ACCESSORIES",
+        "nav-4": "OCCASIONS",
+        "nav-5": "ABOUT ME"
+    },
+    "icon":{
+        "user-prev":{
+            "login": "Login",
+            "register": "Register"
+        },
+        "user-next":{
+            "logout": "Logout",
+            "profile": "Profile"
+        }
+    }
+}

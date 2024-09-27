@@ -1,0 +1,17 @@
+{
+    "tax": "tax",
+    "address": "add",
+    "add": "8th R4 Tower - at 72A Nguyen Trai - Thanh Xuan - Ha Noi",
+    "company": {
+        "item-1": "About to Floral Oasis",
+        "item-2": "Recruitment",
+        "item-3": "News",
+        "item-4": "Contact"
+    },
+    "connect": "CONNECT WITH US",
+    "infomation": "Infomation",
+    "info": {
+        "info-1": "12 Trang Thi Street, Hang Trong, Hoan Kiem, Ha Noi",
+        "info-2": "72A Nguyen Trai Street, Thanh Xuan, Ha Noi"
+    }
+}

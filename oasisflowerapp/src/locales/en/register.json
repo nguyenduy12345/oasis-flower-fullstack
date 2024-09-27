@@ -1,0 +1,14 @@
+{
+    "img": {
+        "title": "WELCOME TO FLORAL OASIS",
+        "des": "Floral oasis where you can choose flowers, cakes, and meaningful gifts htmlFor your loved ones and friends"
+    },
+    "form": {
+        "title": "register form",
+        "name": "username",
+        "phone": "phonenumber",
+        "password": "password",
+        "address": "address",
+        "button": "register"
+    }
+}

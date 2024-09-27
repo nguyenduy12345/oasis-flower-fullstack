@@ -1,0 +1,122 @@
+@import '/src/styles/variables.scss';
+@mixin button{
+    color: $color-text;
+    font-size: $font-size-des;
+    padding: 5px 20px;
+    background-color: $background-color3;
+    border-radius: $border-radius-small;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+    &:hover{
+        color: white;
+    }
+}
+.banner{
+    width: 1600px;
+    max-width: 100vw;
+    margin: auto;
+    img{
+        width: 100%;
+        max-width: 100vw;
+    }
+}
+.container{
+    width: 100%;
+    background: var(--main-background);
+}
+.occasions{
+    width: $width_container;
+    max-width: 100vw;
+    margin: auto;
+    background: var(--main-background);
+    &__des{
+        width: 80%;
+        max-width: 100vw;
+        margin: auto;
+        padding: 20px 0;
+        text-align: center;
+        font-size: $font-size-des;
+        color: var(--main-text);
+    }
+    ul{
+        width: 100%;
+        margin: 10px;
+        padding-left: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        li{
+
+            text-align: center; 
+            color: var(--main-text);
+            margin-bottom: 30px;
+            border: 1px solid var(--background-title);
+            padding: 0 0 10px 0;
+            img {
+                width: 100%;
+                max-width: 100vw;
+                height: 400px;
+                cursor: pointer;
+            }
+        }
+    }
+    &__name{
+    font-size: 0.9rem;
+    padding: 15px 5px;
+    font-weight: bold;
+    margin: 0;
+    height: 60px;
+    }
+    &__info{
+        font-size: $font-size-des;
+        padding: 10px 20px;
+        margin: 0;
+        height: 110px;
+        overflow: hidden
+    }
+    button{
+        @include button(); 
+        // color: $white;
+        // &:hover{
+        //     opacity: 0.8;
+        //     color: $color-text;
+        // }
+    }
+}
+.service {
+    margin-top: 30px;
+    padding-bottom: 30px;
+    background-color: var(--main-background);
+    max-width: 100vw;
+    img {
+        width: 45%;
+        cursor: pointer;
+    }
+    &__des{
+        margin-left: 30px;
+        color: var(--main-text);
+    }
+    h1{
+        font-size: 1.2rem;
+        padding-bottom: 20px;
+        color: var(--main-text);
+    }
+    p{
+        font-size: $font-size-des;
+        color: var(--main-text);
+        width: 80%;
+    }
+    button{
+        @include button();
+    }
+    
+}
+@media (max-width: 768px) {
+    .service{
+        img{
+            width: 100%;
+            margin-bottom: 10px;
+        }
+    }
+}

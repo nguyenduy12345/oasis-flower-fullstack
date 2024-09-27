@@ -1,0 +1,58 @@
+@import '/src/styles/variables.scss';
+
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mode {
+    width: max-content;
+    display: flex;
+    margin-left: 30px;
+    &__icon {
+        @include flex-center();
+        font-size: 0.85rem;
+        padding: 0 8px;
+        color: var(--main-text);
+    }
+    .checkbox {
+        opacity: 0;
+        position: absolute;
+    }
+    .checkbox-label {
+        background-color: var(--main-text);
+        width: 49px;
+        height: 26px;
+        border-radius: 50px;
+        position: relative;
+        padding: 5px;
+        cursor: pointer;
+        top: 6px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .checkbox-label .ball {
+        background-color: var(--main-background);
+        width: 22px;
+        height: 22px;
+        position: absolute;
+        left: 2px;
+        top: 2px;
+        border-radius: 50%;
+        transition: transform 0.2s linear;
+    }
+
+    .checkbox:checked+.checkbox-label .ball {
+        transform: translateX(24px);
+    }
+}
+@media (max-width: 568px){
+    .mode {
+        &__icon{
+            height: 100%;
+            @include flex-center();
+        }
+    }
+}

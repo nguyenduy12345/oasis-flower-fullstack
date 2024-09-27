@@ -1,0 +1,55 @@
+@import "/src/styles/variables.scss";
+.slider{
+    &__item{
+        position: relative;
+        img{
+            min-width: 100vw;
+            max-width: 100vw;
+            height: 78vh;
+            object-fit: cover;
+        }
+        p{
+            font-size: $font-size;
+            color: $white;
+            font-weight: bold;
+            position: absolute;
+            z-index: 9;
+            bottom: 70px;
+            left: 80px;
+            width: 60%;
+            text-shadow: 2px 2px 5px $color-text;
+        }
+    }
+    ul{
+        position: absolute;
+        bottom: 10px;
+        li{
+            width: 30px;
+
+            button::before {
+                font-size: 15px;
+                color: white !important;
+                opacity: 0.8 !important;
+            }
+        }
+    }
+}
+@media (max-width: 768px) {
+    .slider{
+        &__item{
+            img{
+                height: 60vh;
+            }
+            p{
+                bottom: 30px;
+                left: 40px;
+                width: 80%;
+            }
+        }
+    }
+}
+@media (max-width: 992px) {
+    p{
+        font-size: $font-size-des !important;
+    }
+}

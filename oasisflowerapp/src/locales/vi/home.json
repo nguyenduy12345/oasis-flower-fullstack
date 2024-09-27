@@ -1,0 +1,41 @@
+{
+    "list-page-product": {
+        "page-flowers": "cây hoa",
+        "page-cakes": "bánh & đồ ngọt",
+        "page-accessories": "phụ kiện"
+    },
+    "events":{
+        "title": "DOANH NGHIỆP & SỰ KIỆN",
+        "des": "Từ đám cưới và các sự kiện quy mô lớn đến hoa văn phòng hàng tuần, nhóm của chúng tôi sẵn sàng hiện thực hóa ý tưởng của bạn bằng hoa.",
+        "item-1": {
+            "title": "ĐÁM CƯỚI",
+            "des": "Nếu bạn đang tìm kiếm những loại hoa sang trọng tốt nhất cho lễ kỷ niệm đám cưới của mình, đội ngũ những người bán hoa hàng đầu trong ngành của chúng tôi luôn sẵn sàng trợ giúp.",
+            "link": "tìm hiểu ngay"
+        },
+        "item-2": {
+            "title": "SỰ KIỆN & HOẠT ĐỘNG",
+            "des": "Nếu bạn đang tìm kiếm những loại hoa sang trọng tốt nhất cho lễ kỷ niệm đám cưới của mình, đội ngũ những người bán hoa hàng đầu trong ngành của chúng tôi luôn sẵn sàng trợ giúp.",
+            "link": "tìm hiểu ngay"
+        },
+        "item-3": {
+            "title": "HỢP ĐỒNG",
+            "des": "Nếu bạn đang tìm kiếm những loại hoa sang trọng tốt nhất cho lễ kỷ niệm đám cưới của mình, đội ngũ những người bán hoa hàng đầu trong ngành của chúng tôi luôn sẵn sàng trợ giúp.",
+            "link": "tìm hiểu ngay"
+        },
+        "button": "tìm hiểu thêm"
+    },
+    "about": {
+        "title": "HOA CAO CẤP: GIỚI THIỆU VỀ TÔI",
+        "des": "Tại đây, chúng tôi giao hoa tươi, theo mùa, chất lượng cao đến tận nhà bạn, với các lựa chọn giao hoa đáng tin cậy 5 ngày một tuần, bao gồm giao hàng trong cùng ngày và giao hàng vào ngày hôm sau trên khắp Bờ Đông. Đặt hoa trực tuyến với chúng tôi và bạn sẽ luôn nhận được những bông hoa tinh tế, cho dù chúng được tặng tại nhà hay gửi làm quà tặng. Khám phá phạm vi của chúng tôi.",
+        "item-1": {
+            "title": "SẮP XẾP CÁC LOẠI HOA",
+            "des": "Tại FLOWERBX, chúng tôi là chuyên gia về các giống hoa độc quyền, khó tìm. Bó hoa của chúng tôi luôn có một loại hoa, không có chất độn và không cầu kỳ. Chúng tôi lấy hoa trực tiếp từ người trồng, điều đó có nghĩa là chất lượng của chúng tôi không ai sánh bằng và đảm bảo hoa tươi lâu nhất có thể.",
+            "link": "Mua ngay"
+        },
+        "item-2": {
+            "title": "HOA CAO CẤP",
+            "des": "Hoa và lá của chúng tôi luôn đặt Trái đất lên hàng đầu bằng mô hình cắt theo đơn đặt hàng, không lãng phí và phân phối hoa không thải carbon. Bao bì của chúng tôi được làm từ vật liệu tái chế và có thể phân hủy được, đồng thời chúng tôi không ngừng đổi mới để cải thiện tất cả các lĩnh vực trong sản phẩm và chuỗi cung ứng của mình.",
+            "link": "Khám phá sứ mệnh của chúng tôi"
+        }
+    }
+}

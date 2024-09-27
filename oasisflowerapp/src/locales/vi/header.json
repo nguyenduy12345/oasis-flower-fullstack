@@ -1,0 +1,20 @@
+{
+    "nav": {
+        "home": "TRANG CHỦ",
+        "nav-1": "CÂY HOA",
+        "nav-2": "BÁNH & ĐỒ NGỌT",
+        "nav-3": "PHỤ KIỆN",
+        "nav-4": "SỰ KIỆN",
+        "nav-5": "GIỚI THIỆU"
+    },
+    "icon":{
+        "user-prev":{
+            "login": "Đăng nhập",
+            "register": "Đăng ký"
+        },
+        "user-next":{
+            "logout": "Đăng xuất",
+            "profile": "Tài khoản"
+        }
+    }
+}
