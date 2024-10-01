@@ -4,22 +4,14 @@ import instance, {createAxiosResponseInterceptor} from '../../utils/request.js'
 export const CartProduct = createContext({})
 
 const CartProductProvider = ({ children }) => {
+  const [cartProduct, setCartProduct] = useState()
     useEffect(() => {
       const fetchCart = async() => {
-            createAxiosResponseInterceptor()
-            const result = await instance.get('cart')
-            console.log(result)
-          }
-    })
-    let cartItem = localStorage.getItem("CART") ? JSON.parse(localStorage.getItem("CART")) : []
-    // useEffect(() => {
-    //   const fetchCart = async() => {
-    //     createAxiosResponseInterceptor()
-    //     await instance.patch
-    //   }
-
-    // },[cartItem])
-    const [cartProduct, setCartProduct] = useState(cartItem)
+          const result = await instance.get('/carts')
+          setCartProduct(result.data.data.products)
+        }
+      fetchCart()
+    }, [cartProduct])
     return (
     <CartProduct.Provider value={{ cartProduct, setCartProduct }}>
         {children}

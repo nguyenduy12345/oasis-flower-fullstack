@@ -47,14 +47,7 @@ const Header = () => {
     setAccountLogin(account)
     setAvatarUser(avatar)
   }, [stateLogin])
-
-  const cartLength = useMemo(() =>{
-      return cartProduct.reduce(
-        (init, item) => init + +item.quantity,
-        0
-      )},
-    [cartProduct]
-  );
+  const cartLength = cartProduct ? cartProduct.reduce((init, item) => init + +item.quantity, 0) : ''
   const setPosition = useCallback(() => {
     window.scrollY >= 100
       ? (header.current.style.position = "fixed")

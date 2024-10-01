@@ -1,17 +1,6 @@
 import CartModel, {
-  getCartDB,
-  updateCartDB,
-  deleteCartDB,
+  getCartDB
 } from "../models/cart.models.js";
-// Phương thức để tính toán tổng tiền của giỏ hàng
-// cartSchema.methods.calculateTotal = function () {
-//     let total = 0;
-//     this.items.forEach((item) => {
-//       total += item.product.price * item.quantity;
-//     });
-//     this.total = total;
-//     return total;
-//   };
 const handleGetCart = async (req, res) => {
   const { _id } = req.data
   try {
@@ -30,7 +19,7 @@ const handleGetCart = async (req, res) => {
 }
 const handleAddCart = async (req, res) => {
   const { _id } = req.data
-  const { productId } = req.body
+  const { productId, quantity, size, note, accessories} = req.body
   try {
     let cart = await getCartDB({ user: _id });
     if(!cart){
@@ -40,11 +29,17 @@ const handleAddCart = async (req, res) => {
     cart = await getCartDB({ user: _id });
     const productIndex = cart?.products.findIndex((item) => item.product._id.toString() === productId);
     if (productIndex !== -1) {
-      cart.products[productIndex].quantity++;
+       cart.products[productIndex].quantity = quantity;
+       cart.products[productIndex].size = size
+       cart.products[productIndex].note = note
+       cart.products[productIndex].accessories = accessories
     } else {
       cart.products.push({
         product: productId,
-        quantity: 1,
+        quantity: quantity,
+        size,
+        note,
+        accessories
       });
     }
     await cart.save();
@@ -59,17 +54,16 @@ const handleAddCart = async (req, res) => {
   }
 };
 
-// Cập nhật số lượng sản phẩm trong giỏ hàng
 const handleUpdateCart = async (req, res) => {
   const { _id } = req.data
-  const { productId } = req.body
+  const { productId, quantity } = req.body
   try {
     const cart = await getCartDB({ user: _id });
     const productIndex = cart.products.findIndex(
       (item) => item.product._id.toString() === productId
     );
     if (productIndex !== -1) {
-      cart.products[productIndex].quantity = req.body.quantity;
+      cart.products[productIndex].quantity = quantity;
     } else {
       return res.status(404).send({ 
         message: "Sản phẩm không tồn tại trong giỏ hàng" 
@@ -85,8 +79,6 @@ const handleUpdateCart = async (req, res) => {
     });
   }
 };
-
-// Xóa sản phẩm khỏi giỏ hàng
 const handleDeleteCart = async (req, res) => {
   const { _id } = req.data
   const { productId } = req.query

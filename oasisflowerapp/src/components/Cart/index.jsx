@@ -1,54 +1,66 @@
-import { memo, useCallback, useContext, useMemo} from "react";
+import { memo, useContext} from "react";
 import { useTranslation } from "react-i18next";
+
 import { CartProduct, MessageContext} from '/src/stores'
 import { CartItem } from '/src/components'
+
+import instance from "../../utils/request.js";
 
 import styles from "./styles.module.scss";
 
 const Cart = ({setIsCart}) => {
-  let cartItem = localStorage.getItem("CART") ? JSON.parse(localStorage.getItem("CART")) : []
   const { cartProduct, setCartProduct } = useContext(CartProduct)
   const { setMessageNotifi } = useContext(MessageContext)
   const {i18n} = useTranslation()
-  const total = useMemo(() => cartItem.reduce((init, item) => {
+  const total = cartProduct && cartProduct.reduce((init, item) => {
     switch(i18n.language){
       case 'en':
-        return init + (+item.quantity * +item.defaultPriceEN)
+        return init + (+item.quantity * +item.product.priceEN)
       case 'vi':
-        return init + (+item.quantity * +item.defaultPriceVI)
+        return init + (+item.quantity * +item.product.priceVI)
     }
-    
-  }, 0) , [cartItem])
-  // const total = useMemo(() => cartItem.reduce((init: number, item: CartProduct) => , 0), [cartProduct])
-  let timeout = null
-  const handleRemoveItemCart = useCallback((id) =>{
-    setMessageNotifi(i18n.language == 'vi' ? 'Bạn đã xóa một sản phẩm' : 'Product removed')
-    clearTimeout(timeout)
-    timeout = setTimeout(() => setMessageNotifi(undefined),1000)
-    const result = cartItem.filter(item => item.id != id)
-    setCartProduct(result)
-    localStorage.setItem("CART", JSON.stringify(result))
-  }, [cartItem])
-
-  const handleMinusQuantity = useCallback((product, quantity) =>{
-    if(quantity === 1 ){
-      const crrCartProduct = cartProduct.filter(item => item.id != product.id)
-      setCartProduct(crrCartProduct)
-      localStorage.setItem("CART", JSON.stringify(crrCartProduct))
+  }, 0) 
+  const handleRemoveItemCart = async(id) =>{
+    try {
+      const result = await instance.delete(`carts?productId=${id}`)
+      setMessageNotifi(i18n.language == 'vi' ? 'Bạn đã xóa một sản phẩm' : 'Product removed')
+      setTimeout(() => setMessageNotifi(undefined),1000)
+      setCartProduct(result.data.products)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  const handleMinusQuantity = async(id, quantity) =>{
+    if(quantity === 1){
+     try {
+      const res = await instance.delete(`carts?productId=${id}`)
+      setCartProduct(res.data.products)
+     } catch (error) {
+      console.log(error)
+     }
     }else{
-      const index = cartItem.findIndex(item => item == product)
-      cartItem[index] = {...product, 'quantity': +cartItem[index]['quantity'] - 1}
-      setCartProduct(cartItem)
-      localStorage.setItem("CART", JSON.stringify(cartItem))
+      try {
+        const res = await instance.patch('carts', {
+          productId: id,
+          quantity: quantity - 1
+        })
+        setCartProduct(res.data.products)
+      } catch (error) {
+        console.log(error)
+      }
     }
-  }, [cartItem])
-
-  const handleAddQuantity = useCallback((product) =>{
-    const index = cartItem.findIndex(item => item == product)
-    cartItem[index] = {...product, 'quantity': +cartItem[index]['quantity'] + 1}
-    setCartProduct(cartItem)
-    localStorage.setItem("CART", JSON.stringify(cartItem))
-  },[cartItem])
+  }
+  const handleAddQuantity = async(id, quantity) =>{
+    try {
+      const res = await instance.patch('carts', {
+        productId: id,
+        quantity: quantity + 1
+      })
+      setCartProduct(res.data.products)
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <div className={styles["cart"]}>
       <i
@@ -66,15 +78,13 @@ const Cart = ({setIsCart}) => {
           <li></li>
         </ul>
         <div className={styles["box__item"]}>
-          {cartItem &&
-            cartItem.length > 0 &&
-            cartItem.map((product) => (
+          {cartProduct && cartProduct.map((product) => (
               <CartItem 
-                key={product.id} 
+                key={product.product._id} 
                 product={product} 
-                handleRemoveItemCart={() => handleRemoveItemCart(product.id)} 
-                handleMinusQuantity={() => handleMinusQuantity(product, product.quantity)}
-                handleAddQuantity={() => handleAddQuantity(product)}
+                handleRemoveItemCart={() => handleRemoveItemCart(product.product._id)} 
+                handleMinusQuantity={() => handleMinusQuantity(product.product._id ,product.quantity)}
+                handleAddQuantity={() => handleAddQuantity(product.product._id ,product.quantity)}
               />
             ))}
         </div>

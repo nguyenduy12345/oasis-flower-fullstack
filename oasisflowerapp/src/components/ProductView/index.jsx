@@ -2,6 +2,8 @@ import { useSearchParams } from 'react-router-dom';
 import { memo, useCallback, useContext, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import instance from '../../utils/request.js'
+
 import { CartProduct, MessageContext } from '/src/stores';
 import { LoginForm } from '/src/components'
 import styles from './styles.module.scss'
@@ -13,7 +15,7 @@ const ProductView = ({dataItem, setDataItem }) => {
     const { setCartProduct} = useContext(CartProduct)
     const [getImage, setGetImage] = useState()
     const [ getSize, setGetSize] = useState('S')
-    const inputNote = useRef('')
+    const [inputNote, setInputNote] = useState('')
     const [quantity, setQuantity] = useState(1)
     const [isMessage, setIsMessage] = useState(false)
     const [isLogin, setIsLogin] = useState(false)
@@ -35,31 +37,22 @@ const ProductView = ({dataItem, setDataItem }) => {
         setQuantity(quantity + 1)
         return;
     }, [quantity])
-    const handleGetData = () =>{
+    const handleGetData = async() =>{
         if(accountLogin){
-            setMessageNotifi(i18n.language == 'vi' ? 'Thêm giỏ hàng thành công' : 'Added product successfully')
-            setTimeout(() =>{setMessageNotifi(undefined)},1000)
-            setIsMessage(false)
-            let cartItem = localStorage.getItem("CART") ? JSON.parse(localStorage.getItem("CART")) : []
-            let data = {
-            id: dataItem._id,
-            name: dataItem.name,
-            src :dataItem.image,
-            quantity: quantity,
-            // price: i18n.language == 'vi' ? (+dataItem.priceVI * quantity) : (+dataItem.priceEN * quantity),
-            defaultPriceEN: dataItem.priceEN,
-            defaultPriceVI: dataItem.priceVI,
-            size: getSize,
-            note: inputNote.current.value, 
-            }
-            let index = cartItem.findIndex(item => item.id == data.id)
-            if(index > -1){
-                cartItem[index] = data
-                setCartProduct([...cartItem])
-                localStorage.setItem("CART", JSON.stringify([...cartItem]))
-            }else{
-                setCartProduct([...cartItem, data])
-                localStorage.setItem("CART", JSON.stringify([...cartItem, data]))
+            try {
+                const result = await instance.post('carts', {
+                    productId: dataItem._id,
+                    quantity,
+                    size: getSize,
+                    note: inputNote
+                })
+                setCartProduct(result.data.products)
+                setMessageNotifi(i18n.language == 'vi' ? 'Thêm giỏ hàng thành công' : 'Added product successfully')
+                setTimeout(() =>{setMessageNotifi(undefined)},1000)
+                setIsMessage(false)
+            } catch (error) {
+                setMessageNotifi(error.response.data.message)
+                setTimeout(() =>{setMessageNotifi(undefined)},1000)
             }
         }else{
             setIsMessage(true)
@@ -94,7 +87,7 @@ const ProductView = ({dataItem, setDataItem }) => {
     return (
         <>  
         {isLogin && <LoginForm setIsLogin={setIsLogin} />}
-        <div className={styles["view"]} key={dataItem.id}>
+        <div className={styles["view"]} key={dataItem._id}>
         <i onClick={handleCloseProductView} className={`${styles["close__view"]} fa-solid fa-xmark`}></i>
         <div className={`${styles["product"]} row mt-3`}>
             <div className={`${styles["product__image"]} col-sm-12 col-lg-5`}>
@@ -140,7 +133,7 @@ const ProductView = ({dataItem, setDataItem }) => {
                     </ul>
                 </div>
                 <span className={styles["attribute__title"]}>{t('notes')} </span>
-                <input ref={inputNote} className={styles["product__note"]} type="text" name="write_note" placeholder={t('notes-input')} />
+                <input value={inputNote} onChange={(e) => setInputNote(e.target.value)} className={styles["product__note"]} type="text" name="write_note" placeholder={t('notes-input')} />
                 <button onClick ={() => handleGetData()} className={styles["product__button"]}>{t('button')}</button>
                 { isMessage && <p className={styles['product__message']}>{t('message')}</p>}
                 <p className="message_add_cart"></p>

@@ -20,6 +20,18 @@ const cartSchema = new mongoose.Schema(
           default: 0,
           required: true,
         },
+        size:{
+          type: String,
+          default: 's',
+        },
+        note:{
+          type: String,
+          default: ''
+        },
+        accessories:[{
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "products"
+        }]
       },
     ],
     total: {
@@ -35,8 +47,6 @@ const cartSchema = new mongoose.Schema(
 const CartModel = mongoose.model(collections.CARTS, cartSchema);
 
 const getCartDB = (userId) => CartModel.findOne(userId);
-const updateCartDB = (...args) => CartModel.findOneAndUpdate(...args);
-const deleteCartDB = (...args) => CartModel.findOneAndDelete(...args);
 
 export default CartModel
-export { getCartDB, updateCartDB, deleteCartDB };
+export { getCartDB };
