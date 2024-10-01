@@ -23,7 +23,7 @@ const authMiddleware = {
     auhthorizationAdmin: async (req, res, next) => {
       const { role } = req.data
       try{
-        if(!role.includes("admin")) throw new Error('Unauthorized')
+        if(!role.includes("admin")) throw new Error("You are not Admin")
         next()
       } catch (error) {
         res.status(401).send({

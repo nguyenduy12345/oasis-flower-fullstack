@@ -1,14 +1,13 @@
 import { useRef, useEffect, useState, memo, useContext } from "react";
-import { useForm} from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Navigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 import instance from "../../utils/request.js";
 
 import { MessageContext, StateLogin } from "/src/stores"
 import styles from "./styles.module.scss";
 import img from "./imgregister.webp";
-
 
 // const regexEmail = "/^w+@[a-zA-Z_]+?.[a-zA-Z]{2,3}$/";
 // const regexPhone = "/(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/";
@@ -17,27 +16,34 @@ const Register = () => {
   const inputName= useRef(null);
   const [isState, setIsState] = useState('')
   const { setMessageNotifi } = useContext(MessageContext)
-  const { stateLogin, setStateLogin } = useContext(StateLogin)
+  const { setStateLogin } = useContext(StateLogin)
+  const navigate = useNavigate()
   useEffect(() => {
     inputName.current.focus();
   }, []);
-
   const { register, handleSubmit, formState: { errors, isSubmitting }} = useForm();
-  const onSubmit= async (data) => {
+  const onSubmit = async (data) => {
     if(data){
       await instance.post('register', data)
       .then(() => {
         setIsState(i18n.language == 'vi' ? "Bạn đã đăng ký thành công tài khoản!" : "Congulations! Register succes.")
-        setTimeout(() => setIsState(''), 2000)
         setMessageNotifi(i18n.language == 'vi' ? 'Bạn đã đăng ký thành công tài khoản' : "Congulations! Register succes.")
-        setTimeout(() => setMessageNotifi(undefined), 1000 );
       })
       .then(async () => {
         const { username, password } = data
         await instance.post('login', {
           username,
           password
-        }).then(() => console.log())
+        }).then((result) => {
+          window.location.href = 'http://localhost:5173'
+          setStateLogin(true)
+          localStorage.setItem("ACCESS_TOKEN", JSON.stringify(result.data.data.user.accesstoken))
+          localStorage.setItem("REFRESH_TOKEN", JSON.stringify(result.data.data.user.refreshtoken))
+          localStorage.setItem('USER_AVATAR', JSON.stringify(!!result.data.data.user.avatar ? result.data.data.user.avatar : ''))
+          localStorage.setItem('USER_LOGIN', JSON.stringify(username))
+          setMessageNotifi(i18n.language == 'vi' ? 'Đăng nhập thành công' : 'Logged in successfully')
+          setTimeout(() =>{setMessageNotifi(undefined)},1000)
+        })
       })
       .catch(error => {
         if (error.response) {
@@ -50,10 +56,15 @@ const Register = () => {
       })
     }
   }
-
+  useEffect(() => {
+    const isLogin = JSON.parse(localStorage.getItem('USER_LOGIN'))
+    if(isLogin){
+      navigate('/')
+      return
+    }
+  })
   return (
     <div className={styles["register__form"]}>
-      {stateLogin && <Navigate to="/" replace={true} />}
       <div className={styles["register__banner"]}>
         <img src={img} alt="this is picture" />
         <div className={styles["register__dr"]}>

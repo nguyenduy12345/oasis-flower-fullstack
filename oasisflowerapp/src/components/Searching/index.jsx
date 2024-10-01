@@ -1,75 +1,85 @@
 import { useRef, useEffect, useState, memo, useCallback} from "react";
 import { useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import instance from "../../utils/request.js";
 
 import { ProductView } from '/src/components'
+import debounce from "../../functions/Debounce"
 import styles from "./styles.module.scss";
 
-const Searching = ({setIsSearching, products}) => {
+const Searching = ({setIsSearching}) => {
 const { i18n } = useTranslation()
 const inputSearch = useRef(null);
 const boxSearch = useRef(null);
   useEffect(() => {
     inputSearch.current.focus();
   }, []);
-const [searching, setSearching] = useState([])
+const [searchingProducts, setSearchingProducts] = useState([])
 const [dataItem, setDataItem] = useState(null)
 const [isIcon, setIsIcon] = useState(false)
 const [messageSearch, setMessageSearch] = useState(false)
 const [searchParams, setSearchParams] = useSearchParams()
-let timeOut = null
-const handleChangeSearching = useCallback((e) => {
-  setIsIcon(true)
-    clearTimeout(timeOut)
-    timeOut = setTimeout(() => {
-      let productSearching = products.filter((product) => product.name.toLowerCase().includes(e.target.value.toLowerCase()))
-      if(productSearching.length == products.length){
-        setSearching([])
-        boxSearch.current.style.height = "60px"
-        setMessageSearch(false)
-      }else if(productSearching.length == 0){
-        setMessageSearch(true)
-        boxSearch.current.style.height = "110px"
-        setSearching([])
-      }
-      else{
-        boxSearch.current.style.height = "300px";
-        setMessageSearch(false)
-        setSearching(productSearching)
-      }
-      setIsIcon(false)
-    },300)
-  }, [])
-  const handleSearchingItem = useCallback((item) => {
-    setSearchParams({product: `${item.name}`, id: `${item.id}`})
-    setDataItem(item)
-  }, [])
 
+const handleChangeSearching = (e) => {
+  if(!e.target.value){
+    setSearchParams(false)
+    return
+  }
+  setSearchParams({keyWord: e.target.value})
+  }
+  const keyWord = searchParams.get('keyWord')
+  useEffect(() => {
+    const fetchProducts = async() =>{
+    setIsIcon(true)
+    const productSearching = await instance.get(`products?keyWord=${keyWord}`)
+    if(!keyWord){
+      boxSearch.current.style.height = "60px"
+      setSearchingProducts([])
+      setMessageSearch(false)
+      setIsIcon(false)
+      return
+    }
+    if(productSearching.data.data.products.length == 0){
+      setSearchingProducts([])
+      boxSearch.current.style.height = "110px"
+      setMessageSearch(true)
+      setIsIcon(false)
+      return 
+    }else{
+    boxSearch.current.style.height = "300px";
+    setMessageSearch(false)
+    setSearchingProducts(productSearching?.data?.data?.products)
+    setIsIcon(false)
+    }
+  }
+  fetchProducts()
+  },[keyWord])
+ 
   return (
     <>
     {dataItem && <ProductView dataItem={dataItem} setDataItem={setDataItem}/>}
     <div ref={boxSearch} className={styles["searching"]}>
       <input
         ref={inputSearch}
-        onChange={(e) => handleChangeSearching(e)}
+        onChange={debounce(handleChangeSearching, 200)}
         className={styles["searching__input"]}
         id="searching"
         type="text"
         placeholder={i18n.language == 'vi'? "Tìm kiếm..." : "Searching..."}
       />
-      {isIcon == false ? <i className="fa-solid fa-magnifying-glass"></i> : <i className={`${styles["icon__loading"]} fa-solid fa-spinner`}></i>}
+      {isIcon ? <i className={`${styles["icon__loading"]} fa-solid fa-spinner`}></i> : <i className="fa-solid fa-magnifying-glass"></i>}
       {messageSearch && <p style={{fontSize:"1.2rem", color: 'red'}}>{i18n.language == 'vi'? 'Không tìm thấy sản phẩm...': "Can't find product..."} </p>}
       <p
-        onClick={() => setIsSearching(false)}
+        onClick={() => {setIsSearching(false); setSearchParams({})}}
         className={styles["searching__icon"]}
       >
         <i className="fa-solid fa-xmark"></i>
       </p>
-      {searching.map((item) => (
-        <ul onClick={() => handleSearchingItem(item)} key={item.id} className={`${styles["searching__product"]} mt-2`}>
+      {searchingProducts.map((item) => (
+        <ul onClick={() => {setDataItem(item)}} key={item._id} className={`${styles["searching__product"]} mt-2`}>
         <div className={`${styles["searching__img"]} me-2`}>
           <li>
-            <img src={item.src} />
+            <img src={item.image} />
           </li>
         </div>
         <div className={styles["searching__info"]}>

@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
   address: { type: String, required: true },
   avatar: { type: String },
   banned: {type: Boolean, default: false},
-  accesstoken: {type: String, expireAt: { type: Date, default: Date.now, expires: 180 }},
+  accesstoken: {type: String, expireAt: { type: Date, default: Date.now, expires: 500000 }},
   refreshtoken: {type: String, expireAt: { type: Date, default: Date.now, expires: 2592000 }},
   role: [{
     type: String,
@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
 const UserModel = mongoose.model(collections.USERS, userSchema);
 
 const countUserDB = () => UserModel.countDocuments();
-const getUserDB = () => UserModel.find();
+const getUserDB = (info) => UserModel.find(info);
 const createUserDB = (data) => UserModel.create(data);
 const findUserDB = (data) => UserModel.findOne(data);
 const updateUserDB = (...args) => UserModel.findOneAndUpdate(...args)

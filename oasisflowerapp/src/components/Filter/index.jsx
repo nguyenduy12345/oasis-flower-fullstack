@@ -1,11 +1,12 @@
 import { memo, useCallback, useRef, useContext} from 'react'
-import {  useSearchParams } from 'react-router-dom';
+import {  useSearchParams, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-
+import instance, {createAxiosResponseInterceptor} from '../../utils/request.js';
 import { Theme } from '/src/stores'
 import styles from './styles.module.scss'
 
-const Filter = ({types, setFilter, setProducts, setIsFilPrice, listData, setPage}) => {
+const Filter = ({types, setFilter, setData, setIsFilPrice, products, setPage}) => {
+    const { productName } = useParams()
     const { isDark } = useContext(Theme)
     const filterBox = useRef()
     const inputMin = useRef(null)
@@ -19,58 +20,62 @@ const Filter = ({types, setFilter, setProducts, setIsFilPrice, listData, setPage
       }, [])
     const keys = Object.keys(types)
     const [searchParams, setSearchParams ] = useSearchParams()
-    const handleFilterType = useCallback((key) => {
-      const listProduct = listData.filter((item) => item.type == key)
-      setSearchParams({type: `${key}`})
+    //FILTER TYPE
+    const handleFilterType = (key) => {
+      const listProduct = products.filter(item => item.type === key) 
+      setData(listProduct)
+      setSearchParams({type: key, page:'1'})
       setFilter(key)
-      setProducts(listProduct)
-      setPage(1)
       setIsFilPrice(false)
-    },[])
-    const handleFilterAll = useCallback(() =>{
-      setSearchParams({type: 'all'})
+      setPage(1)
+    }
+    // GET ALL PRODUCTS
+    const handleFilterAll = () =>{
+      setData(products)
+      setSearchParams({type: 'all', page:'1'})
       setFilter('all')
       setIsFilPrice(false)
-      setProducts(listData)
       setPage(1)
-    },[])
-    const handleFiterAtoZ = useCallback(() =>{
-      setSearchParams({type: 'a_z'})
+    }
+    // FILTER CHARACTER
+    const handleFilterAtoZ = () =>{
+      setSearchParams({type: 'a_z', page:'1'})
       setFilter('AtoZ')
       setIsFilPrice(false)
-      const sortChacracter = listData.sort((a, b) => a.name.localeCompare(b.name))
-      setProducts(sortChacracter)
+      const sortChacracter = products.sort((a, b) => a.name.localeCompare(b.name))
+      setData(sortChacracter)
       setPage(1)
-    },[])
-    const handleFiterZtoA = useCallback(() =>{
-      setSearchParams({type: 'z_a'})
+    }
+    const handleFilterZtoA = () =>{
+      setSearchParams({type: 'z_a', page:'1'})
       setFilter('ZtoA')
       setIsFilPrice(false)
-      const reverseChacracter = listData.sort((a, b) => b.name.localeCompare(a.name))
-      setProducts(reverseChacracter)
+      const reverseChacracter = products.sort((a, b) => b.name.localeCompare(a.name))
+      setData(reverseChacracter)
       setPage(1)
-    },[])
-    const handleFilterPriceAscending = useCallback(() =>{
-      setSearchParams({type: 'price_ascending'})
+    }
+    // FILTER BY PRICE
+    const handleFilterPriceAscending = () =>{
+      setSearchParams({type: 'price_ascending', page:'1'})
       setFilter('price_ascending')
       setIsFilPrice(false)
-      const sortPriceAscen = listData.sort((a, b) => +a.priceEN - +b.priceEN)
-      setProducts(sortPriceAscen)
+      const sortPriceAscen = products.sort((a, b) => +a.priceEN - +b.priceEN)
+      setData(sortPriceAscen)
       setPage(1)
-    },[])
-    const handleFilterPriceDecreasing = useCallback(() =>{
-      setSearchParams({type: 'price_decreasing'})
+    }
+    const handleFilterPriceDecreasing = () =>{
+      setSearchParams({type: 'price_decreasing', page:'1'})
       setFilter('price_decreasing')
       setIsFilPrice(false)
-      const sortPricedecre = listData.sort((a, b) => +b.priceEN - +a.priceEN)
-      setProducts(sortPricedecre)
+      const sortPricedecre = products.sort((a, b) => +b.priceEN - +a.priceEN)
+      setData(sortPricedecre)
       setPage(1)
-    },[])
-    const handleFilterPriceRange = useCallback(() =>{
+    }
+    const handleFilterPriceRange = () =>{
       setSearchParams({min: `${inputMin.current?.value}`, max: `${inputMax.current?.value}`})
       setIsFilPrice(false)
       setPage(1)
-      const changePrice = listData.filter((item) => {
+      const changePrice = products.filter((item) => {
         if(inputMin.current?.value && inputMax.current?.value.length > 0){
           return (((i18n.language == 'en' ? item.priceEN : +item.priceVI) >= (+inputMin.current.value)) && ((i18n.language == 'en' ? item.priceEN : +item.priceVI) <= (+inputMax.current.value)))
         }
@@ -85,8 +90,8 @@ const Filter = ({types, setFilter, setProducts, setIsFilPrice, listData, setPage
         }
       })
       setFilter(`change_price: min${inputMin.current?.value} & max${inputMax.current?.value}`)
-      changePrice.length == 0 ? setIsFilPrice(true) : setProducts(changePrice)
-    },[])
+      changePrice.length == 0 ? setIsFilPrice(true) : setData(changePrice)
+    }
     return (
     <>
     <i onClick={handleOpenFilter} className={`${styles["filter"]} fa-sharp fa-solid fa-bars`}> Sort by</i>
@@ -106,8 +111,8 @@ const Filter = ({types, setFilter, setProducts, setIsFilPrice, listData, setPage
       </div>
       <div className={styles["filter__item"]}>
         <p>{t('alpha.title')}</p>
-        <button onClick={handleFiterAtoZ}>{t('alpha.charAZ')}</button>
-        <button onClick={handleFiterZtoA}>{t('alpha.charZA')}</button>
+        <button onClick={handleFilterAtoZ}>{t('alpha.charAZ')}</button>
+        <button onClick={handleFilterZtoA}>{t('alpha.charZA')}</button>
       </div>
       <div className={styles["filter__item"]}>
         <p>{t('price.title')}</p>

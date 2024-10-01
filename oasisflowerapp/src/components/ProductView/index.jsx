@@ -42,9 +42,9 @@ const ProductView = ({dataItem, setDataItem }) => {
             setIsMessage(false)
             let cartItem = localStorage.getItem("CART") ? JSON.parse(localStorage.getItem("CART")) : []
             let data = {
-            id: dataItem.id,
+            id: dataItem._id,
             name: dataItem.name,
-            src :dataItem.src,
+            src :dataItem.image,
             quantity: quantity,
             // price: i18n.language == 'vi' ? (+dataItem.priceVI * quantity) : (+dataItem.priceEN * quantity),
             defaultPriceEN: dataItem.priceEN,
@@ -99,11 +99,11 @@ const ProductView = ({dataItem, setDataItem }) => {
         <div className={`${styles["product"]} row mt-3`}>
             <div className={`${styles["product__image"]} col-sm-12 col-lg-5`}>
                 <div className={styles["product__image--big"]}>
-                    <img onMouseMove={changeZoomUp} ref={bigImg} loading='lazy' src={getImage || dataItem.src} />
-                    <img onMouseOut={changeZoomDown} ref={zoomImg} loading='lazy' src={getImage || dataItem.src} />
+                    <img onMouseMove={changeZoomUp} ref={bigImg} loading='lazy' src={getImage || dataItem.image} />
+                    <img onMouseOut={changeZoomDown} ref={zoomImg} loading='lazy' src={getImage || dataItem.image} />
                 </div>
                 <ul className={styles["product__image--small"]}>                   
-                    <li><img onClick={(e) => setGetImage(e.target.src)} loading='lazy' src={dataItem.src}/></li>
+                    <li><img onClick={(e) => setGetImage(e.target.src)} loading='lazy' src={dataItem.image}/></li>
                     <li><img onClick={(e) => setGetImage(e.target.src)} loading='lazy' src="/img/flower/tulips/mixed_tulip.JPG" /></li>  
                     <li><img onClick={(e) => setGetImage(e.target.src)} loading='lazy' src="/img/flower/roses/spring_mixed_rose.jpg" /></li>             
                 </ul>

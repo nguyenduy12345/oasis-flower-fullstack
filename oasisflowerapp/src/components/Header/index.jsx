@@ -23,7 +23,6 @@ import {
 
 import { StateLogin, CartProduct, Theme } from "/src/stores";
 
-import products from "/src/assets/data";
 import styles from "./styles.module.scss";
 
 const activeLink = "text-danger";
@@ -36,12 +35,19 @@ const Header = () => {
   const [isNotifi, setIsNotifi] = useState(false);
   const [isCart, setIsCart] = useState(false);
   const [isNavSmall, setIsNavSmall] = useState(false);
-  const [userNameLogin, setUserNameLogin] = useState()
-  const { setStateLogin } = useContext(StateLogin);
-  const accountLogin = localStorage.getItem("USER_LOGIN") ? JSON.parse(localStorage.getItem("USER_LOGIN")) : ''
+  const { stateLogin, setStateLogin } = useContext(StateLogin);
   const { cartProduct, setCartProduct } = useContext(CartProduct);
+  const [accountLogin, setAccountLogin ] = useState()
+  const [avatarUser, setAvatarUser] = useState()
   const {t} = useTranslation('header')
   const header = useRef();
+  useEffect(() => {
+    const account = localStorage.getItem("USER_LOGIN") ? JSON.parse(localStorage.getItem("USER_LOGIN")) : ''
+    const avatar = localStorage.getItem("USER_AVATAR") ? JSON.parse(localStorage.getItem("USER_AVATAR")) : ''
+    setAccountLogin(account)
+    setAvatarUser(avatar)
+  }, [stateLogin])
+
   const cartLength = useMemo(() =>{
       return cartProduct.reduce(
         (init, item) => init + +item.quantity,
@@ -62,20 +68,23 @@ const Header = () => {
       window.removeEventListener("scroll", setPosition);
     };
   }, []);
-  const handleLogOut = useCallback(() => {
+  const handleLogOut = () => {
     setIsLogin(true);
-    setStateLogin(false);
+    setStateLogin('logout success');
     setCartProduct([])
-    setUserNameLogin(false)
     localStorage.removeItem("CART");
-  },[accountLogin]);
+    localStorage.removeItem("USER_LOGIN")
+    localStorage.removeItem("USER_AVATAR")
+    localStorage.removeItem("ACCESS_TOKEN")
+    localStorage.removeItem("REFRESH_TOKEN")
+  }
   return (
     <>
-      {isLogin && <LoginForm setIsLogin={setIsLogin} setForgotPassword={setForgotPassword} setUserNameLogin={setUserNameLogin} />}
+      {isLogin && <LoginForm setIsLogin={setIsLogin} setForgotPassword={setForgotPassword} />}
       {forgotPassword && <ForgotPassword setIsLogin={setIsLogin} setForgotPassword={setForgotPassword} /> }
       <header ref={header} data-theme={isDark ? 'dark' : 'light'}>
         {isSearching && (
-          <Searching products={products} setIsSearching={setIsSearching} />
+          <Searching setIsSearching={setIsSearching} />
         )}
         <div className={styles["header__navbar"]}>
           <div className={styles["header__category--mode"]}>
@@ -104,14 +113,16 @@ const Header = () => {
                 <span className={styles["notifi__length"]}>0</span>
               </li>
               <li className={styles["icon_user"]}>
-                {userNameLogin ? 
-                  <p>{userNameLogin}</p>
+                {avatarUser ? 
+                  <img src={avatarUser} style={{width: "40px", height:"40px", borderRadius:"50%"}} />
+                : accountLogin ? 
+                  <p>{accountLogin}</p>
                  : 
                   <i className="fa-solid fa-user"></i>
                 }
                 <i className={`${styles["icon_up"]} fa-solid fa-caret-up`}></i>
                 <div className={styles["user"]}>
-                  {userNameLogin ? (
+                  {accountLogin ? (
                     <ul className={styles["box_user"]}>
                       <li onClick={handleLogOut}>{t('icon.user-next.logout')}</li>
                       <li>
@@ -130,7 +141,7 @@ const Header = () => {
               </li>
               <li className={styles["icon_cart"]}>
                 <i
-                  onClick={() => setIsCart(!isCart)}
+                  onClick={() =>{setIsCart(!isCart); setIsSearching(false)}}
                   className="fa-solid fa-cart-shopping"
                 ></i>
                 {isCart && <Cart setIsCart={setIsCart} />}
@@ -193,7 +204,7 @@ const Header = () => {
           <ul className={styles["header__navbar_list"]}>
             <li className={styles["header__nav"]}>
               <NavLink
-                to="/flowers"
+                to="/products/flowers"
                 className={({ isActive }) => (isActive ? activeLink : "")}
               >
                 {t('nav.nav-1')}
@@ -221,7 +232,7 @@ const Header = () => {
             </li>
             <li className={styles["header__nav"]}>
               <NavLink
-                to="/cakes"
+                to="/products/cakes"
                 className={({ isActive }) => (isActive ? activeLink : "")}
               >
                 {t('nav.nav-2')}
@@ -243,7 +254,7 @@ const Header = () => {
             </li>
             <li className={styles["header__nav"]}>
               <NavLink
-                to="/accessories"
+                to="/products/accessories"
                 className={({ isActive }) => (isActive ? activeLink : "")}
               >
                {t('nav.nav-3')}

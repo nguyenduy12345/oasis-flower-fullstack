@@ -5,11 +5,9 @@ import { useTranslation } from 'react-i18next';
 import styles from "./styles.module.scss";
 
 const Product = ({ item, setDataItem, styleList}) => {
-  const [searchParams, setSearchParams] = useSearchParams()
   const {i18n} = useTranslation()
   const handleSetDataItem = () => {
     setDataItem(item)
-    setSearchParams({type:`${item.product}`, id:`${item.id}`})
   }
   return (
     <div
@@ -17,7 +15,7 @@ const Product = ({ item, setDataItem, styleList}) => {
       className={styleList == 'list' ? `${styles["product__item"]} col-sm-12 col-md-6 col-lg-4 pe-md-2` : `${styles["product__item--row"]}`}
     >
       <div className={styles["product__image"]}>
-        <img loading="lazy" src={item.src} />
+        <img loading="lazy" src={item.image} />
         <div className={`${styles["product__view"]} text-uppercase`}>
           <i className="fa-solid fa-eye me-2"></i>View
         </div>

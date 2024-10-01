@@ -20,17 +20,17 @@ const Home = () => {
     <div className={styles["menu"]}>
         <div className={`${styles["menu__list"]} row m-0 justify-content-between`}>
             <div className={`${styles["menu__item"]} col-xs-12 col-sm-12 col-md-6 col-lg-4`}>
-                <Link to="/flowers"><img loading="lazy" src="/img/menu_products/flower.jpg" /></Link>
-                <div className={styles["menu__name"]}><Link to="/flowers">{t('list-page-product.page-flowers')}</Link></div>
+                <Link to="/products/flowers"><img loading="lazy" src="/img/menu_products/flower.jpg" /></Link>
+                <div className={styles["menu__name"]}><Link to="/products/flowers">{t('list-page-product.page-flowers')}</Link></div>
             </div>
             <div className={`${styles["menu__item"]} col-xs-12 col-sm-12 col-md-6 col-lg-4`}>
-                <Link to="/cakes"><img loading="lazy" src="/img/menu_products/horizontal-pulling-slice-from-cake.jpg" /></Link>
+                <Link to="/products/cakes"><img loading="lazy" src="/img/menu_products/horizontal-pulling-slice-from-cake.jpg" /></Link>
               
-                <div className={styles["menu__name"]}><Link to="/cakes">{t('list-page-product.page-cakes')}</Link></div>
+                <div className={styles["menu__name"]}><Link to="/products/cakes">{t('list-page-product.page-cakes')}</Link></div>
             </div>
             <div className={`${styles["menu__item"]} col-xs-12 col-sm-12 col-md-6 col-lg-4`}>
-                <Link to="/accessories"><img loading="lazy" src="/img/menu_products/gift.jpg" /></Link>             
-                <div className={styles["menu__name"]}><Link to="/accessories">{t('list-page-product.page-accessories')}</Link></div>
+                <Link to="/products/accessories"><img loading="lazy" src="/img/menu_products/gift.jpg" /></Link>             
+                <div className={styles["menu__name"]}><Link to="/products/accessories">{t('list-page-product.page-accessories')}</Link></div>
             </div>
         </div>
     </div>
@@ -80,7 +80,7 @@ const Home = () => {
                 <div className="card-body">
                     <div className="card-title fw-bold">{t('about.item-1.title')}</div>
                     <div className="card-text">{t('about.item-1.des')}</div>
-                    <div className="card-link text-center"><Link to="/flowers">{t('about.item-1.link')}</Link></div>
+                    <div className="card-link text-center"><Link to="/products/flowers">{t('about.item-1.link')}</Link></div>
                 </div>
             </div>
             <div className={`${styles["about__item"]} card col-xs-12 col-sm-12 col-md-6`}>

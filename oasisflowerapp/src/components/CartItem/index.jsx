@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { memo } from 'react';
 
-import { CartProduct } from '/src/stores'
 import styles from './styles.module.scss'
 
 

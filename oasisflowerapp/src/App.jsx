@@ -3,20 +3,18 @@ import { lazy, Suspense } from 'react'
 
 // Layout
 import { Header, Footer, MessageNotification } from './components'
-// import { About, Accessories, Cakes, Flowers, Home, Occasions, Register, ErrorPage, Profile } from "./pages"
 import  {Contact, BackToTop} from './components'
 import { ScrollToTop } from './components'
 
 const About = lazy(() => import('./pages/About'))
-const Accessories = lazy(() => import('./pages/Accessories'))
-const Cakes = lazy(() => import('./pages/Cakes'))
-const Flowers = lazy(() => import('./pages/Flowers'))
+const Products = lazy(() => import('./pages/Products'))
 const Home = lazy(() => import('./pages/Home'))
 const Register = lazy(() => import('./pages/Register'))
 const ErrorPage = lazy(() => import('/src/pages/ErrorPage'))
 const Occasions = lazy(() => import('./pages/Occasions'))
 const Profile = lazy(() => import('./pages/Profile'))
-
+const AdminProduct = lazy(() => import('./pages/AdminProduct'))
+const AdminUser = lazy(() => import('./pages/AdminUser'))
 
 import { StyleViewProvider, StateLoginProvider, CartProductProvider, ThemeProvider, MessageContextProvider } from './stores';
 
@@ -35,15 +33,17 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/home' element={<Home />} />
-          <Route path='/accessories' element={<Accessories />} />
-          <Route path='/accessories/:name' element={<Accessories />} />
-          <Route path='/cakes' element={<Cakes />} />
-          <Route path='/cakes/:name' element={<Cakes />} />
-          <Route path='/flowers' element={<Flowers />} />
+          <Route path="/products">
+            <Route path=':productName' element={<Products />} />
+          </Route>
           <Route path='/about' element={<About />} />
           <Route path='/occasions' element={<Occasions />} />
           <Route path='/register' element={<Register />} />
           <Route path='/profile' element={<Profile />} />
+          <Route path="/admin">
+            <Route path='products' element={<AdminProduct />} />
+            <Route path='users' element={<AdminUser />} />
+          </Route>
           <Route path='*' element={<ErrorPage />} />
         </Routes>
       <Footer />

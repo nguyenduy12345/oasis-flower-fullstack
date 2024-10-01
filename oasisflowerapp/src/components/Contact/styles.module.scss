@@ -19,13 +19,21 @@
         i{
             font-size: 1.6rem;
             cursor: pointer;
-            animation: scale 1s linear infinite;
+            // animation: scale 1s linear infinite;
             color: var(--main-text);
             &:hover{
                 font-size: 1.8rem;
                 transition: 0.2s;
             }
         }
+    }
+    p.question{
+        position: fixed;
+        width: max-content;
+        bottom: 100px;
+        right: 64px;
+        font-size: 1rem;
+        color: var(--main-text);
     }
     @keyframes scale {
         0%{

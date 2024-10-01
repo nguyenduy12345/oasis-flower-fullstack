@@ -1,6 +1,7 @@
 const collections = {
     USERS : 'users',
     PRODUCTS : "products",
-    CART : "cart"
+    CARTS : "carts",
+    ORDERS: "orders"
 }
 export default collections

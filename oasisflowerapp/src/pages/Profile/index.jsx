@@ -1,10 +1,14 @@
-import { memo, useCallback, useState, useContext, useEffect } from "react";
+import { memo, useState, useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+// import FormData from 'form-data'
 
-import instance from "../../utils/request.js";
+import instance, {
+  createAxiosResponseInterceptor,
+} from "../../utils/request.js";
 
 import { debounce } from "/src/functions";
-import { Theme, StateLogin } from "/src/stores";
+import { Theme, StateLogin, MessageContext } from "/src/stores";
 import styles from "./styles.module.scss";
 
 const Profile = () => {
@@ -18,44 +22,61 @@ const Profile = () => {
   const [newPassword, setNewPassword] = useState("");
   const [message, setMessage] = useState("");
   const [changeAvt, setChangeAvt] = useState();
+  const [avatar, setAvatar] = useState()
   const [isInfo, setIsInfo] = useState(true);
-  const { stateLogin } = useContext(StateLogin);
+  const { setStateLogin } = useContext(StateLogin);
+  const { setMessageNotifi } = useContext(MessageContext)
+  const navigate = useNavigate()
   const [user, setUser] = useState({
     username: "",
     email: "",
     phonenumber: "",
+    address: ''
   });
-
+  // GET PROFILE
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const result = await instance.get("profile");
-        setUser(result.data.user);
+        setUser(result?.data?.user);
+        localStorage.setItem('USER_AVATAR', JSON.stringify(result.data.user.avatar))
       } catch (error) {
         console.log(error);
       }
     };
     fetchUser();
-  }, [stateLogin]);
+  }, []);
+
   const changeCrrPass = (e) => {
     setCrrPassword(e.target.value);
   };
+
   const changeNewPass = (e) => {
     setNewPassword(e.target.value);
   };
+
   const openEditPassword = () => {
     setChangePassword(true);
     setIsInfo(false);
   };
+
   const openInfomation = () => {
     setChangePassword(false);
     setIsInfo(true);
   };
-  const handleChangePassword = async() => {
-    if(!crrPassword | !newPassword){
-      return
+
+  // CHANGE PASSWORD
+  const handleChangePassword = async () => {
+    if (!crrPassword | !newPassword) {
+      setMessage(
+        i18n.language == "vi"
+          ? "Nhập mật khẩu của bạn"
+          : "Enter your password"
+      );
+      return;
     }
-    await instance.patch("change-password",{
+    await instance
+      .patch("change-password", {
         password: crrPassword,
         newPassword,
       })
@@ -65,7 +86,7 @@ const Profile = () => {
             ? "Lưu thông tin thành công!"
             : "Saved successfully!"
         );
-        return
+        return;
       })
       .catch((error) => {
         if (error.response) {
@@ -81,19 +102,34 @@ const Profile = () => {
         }
       });
   };
-  const handleUpdateProfile = () => {
-    console.log('done')
+
+  // PREVIEW CHANGE AVATAR
+  const changeAvatar = (e) => {
+    e.preventDefault()
+    let file = e.target.files[0];
+    let result = URL.createObjectURL(file);
+    setChangeAvt(result);
+    setAvatar(file)
+  }
+
+  // SAVE AVATAR
+  const handleSaveAvatar = async (e) => {
+    e.preventDefault()
+    const formData = new FormData();
+    formData.append('file', avatar)
+    await instance.patch('change-avatar', formData, {
+      headers: {
+        'Content-Type': `multipart/form-data`,
+      }
+    })
+    .then((res) => {
+      localStorage.setItem('USER_AVATAR', JSON.stringify(res.data.avatar))
+      setStateLogin('change avatar')
+      setMessageNotifi(i18n.language == "vi" ? "Thay đổi thành công ảnh đại diện" : "Change avatar success")
+      setTimeout(() => setMessageNotifi(false),1000)
+    })
+    .catch(err => console.log(err))
   };
-  const changeAvatar = useCallback(
-    (e) => {
-      let file = e.target.files[0];
-      let result = URL.createObjectURL(file);
-      setChangeAvt(result);
-      // const index = getAccountRegister.findIndex(acc => (acc.username == getLogin.username))
-      // localStorage.setItem("USER_REGISTER", JSON.stringify([...getAccountRegister, getAccountRegister[index].src = result]))
-    },
-    [changeAvt]
-  );
   return (
     <div
       className={styles["wrapper__profile"]}
@@ -114,15 +150,22 @@ const Profile = () => {
               <img
                 src={
                   changeAvt
-                    ? changeAvt
+                    ? changeAvt :
+                    user?.avatar ? user?.avatar
                     : "/img/profile/default-user-icon-13.jpg"
                 }
               />
-              <label htmlFor="file_avt">
+            <label htmlFor="file_avt">
                 {i18n.language == "vi" ? "Thay ảnh đại diện" : "Change avatar"}
                 <i className="fa-regular fa-pen-to-square"></i>
               </label>
               <input id="file_avt" type="file" onChange={changeAvatar} />
+              <button
+                onClick={handleSaveAvatar}
+                className={styles["save__avt"]}
+              >
+                {i18n.language == "vi" ? "Lưu ảnh" : "Save avatar"}
+              </button>
             </li>
             {isInfo && (
               <>
@@ -147,6 +190,14 @@ const Profile = () => {
                   <br />
                   <i className="fa-solid fa-phone"></i>
                   <input readOnly value={user?.phonenumber} />
+                </li>
+                <li>
+                  <label>
+                    {i18n.language == "vi" ? "Địa chỉ" : "Address"}
+                  </label>
+                  <br />
+                  <i className="fa-solid fa-location-dot"></i>
+                  <input readOnly value={user?.address} />
                 </li>
               </>
             )}
@@ -200,16 +251,13 @@ const Profile = () => {
                     ></i>
                   )}
                 </li>
-                <button onClick={handleChangePassword}>
-                {i18n.language == "vi" ? "Lưu lại" : "Save "}
+                <div  onClick={handleChangePassword} className={styles["profile__save"]}>
+                  {i18n.language == "vi" ? "Lưu lại" : "Save "}
                   <i className="fa-solid fa-check"></i>
-                </button>
+                </div>
                 <p className={styles["profile__message"]}>{message}</p>
               </ul>
             )}
-            {/* <button onClick={handleUpdateProfile}>
-              Save <i className="fa-solid fa-check"></i>
-            </button> */}
           </ul>
         </div>
       )}

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useRef, useEffect, useCallback, useState, useContext, memo} from "react";
 import { useTranslation } from "react-i18next";
 
@@ -15,7 +15,7 @@ import { goToTop, debounce } from "/src/functions";
 import styles from "./styles.module.scss";
 import { StateLogin, MessageContext } from "/src/stores";
 
-const LoginForm = ({ setIsLogin, setForgotPassword, setUserNameLogin}) => {
+const LoginForm = ({ setIsLogin, setForgotPassword}) => {
   const { i18n } = useTranslation()
   const [account, setAccount] = useState({username: '', password: '' })
   const [showPassword, setShowPassword] = useState(false);
@@ -23,6 +23,8 @@ const LoginForm = ({ setIsLogin, setForgotPassword, setUserNameLogin}) => {
   const { setStateLogin } = useContext(StateLogin)
   const { setMessageNotifi } = useContext(MessageContext)
   const inputName = useRef(null);
+  const navigate = useNavigate()
+  const [searchParams, setSearchParams] = useSearchParams()
   const handleGetValueInputName = (e) =>{
     setAccount({...account,username: e.target.value})
   }
@@ -43,17 +45,25 @@ const LoginForm = ({ setIsLogin, setForgotPassword, setUserNameLogin}) => {
   const handleMouseDownPassword = useCallback((event) => {
     event.preventDefault();
   }, [])
+
   const handleSubmitForm = async () =>{
     await instance.post('login', account)
     .then((result) => {
-      setStateLogin(true)
+      setStateLogin('login success')
       localStorage.setItem("ACCESS_TOKEN", JSON.stringify(result.data.data.user.accesstoken))
       localStorage.setItem("REFRESH_TOKEN", JSON.stringify(result.data.data.user.refreshtoken))
-      setUserNameLogin(account.username)
+      localStorage.setItem('USER_LOGIN', JSON.stringify(account.username))
+      localStorage.setItem('USER_AVATAR', JSON.stringify(!!result.data.data.user.avatar ? result.data.data.user.avatar : ''))
       setMessageNotifi(i18n.language == 'vi' ? 'Đăng nhập thành công' : 'Logged in successfully')
       setTimeout(() =>{setMessageNotifi(undefined)},1000)
       setMessageLogin(i18n.language == 'vi'? 'Đăng nhập thành công' :'LOGIN SUCCESS')
       setTimeout(() => setIsLogin(false), 500)
+      if(result.data.data.user.role.includes('admin') ){
+        navigate("/admin/products?pageNumber=1&pageSize=15")
+        window.location.href = 'http://localhost:5173/admin/products?pageNumber=1&pageSize=15'
+        return
+      }
+      window.location.href = 'http://localhost:5173'
     })
     .catch(error => {
       if (error.response) {
