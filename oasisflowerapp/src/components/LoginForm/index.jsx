@@ -60,10 +60,10 @@ const LoginForm = ({ setIsLogin, setForgotPassword}) => {
       setTimeout(() => setIsLogin(false), 500)
       if(result.data.data.user.role.includes('admin') ){
         navigate("/admin/products?pageNumber=1&pageSize=15")
-        window.location.href = 'http://localhost:5173/admin/products?pageNumber=1&pageSize=15'
+        window.location.href = 'https://oasis-flower-frontend.onrender.com/admin/products?pageNumber=1&pageSize=15'
         return
       }
-      window.location.href = 'http://localhost:5173'
+      window.location.href = 'https://oasis-flower-frontend.onrender.com'
     })
     .catch(error => {
       if (error.response) {

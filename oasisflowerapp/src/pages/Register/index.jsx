@@ -35,7 +35,7 @@ const Register = () => {
           username,
           password
         }).then((result) => {
-          window.location.href = 'http://localhost:5173'
+          window.location.href = 'https://oasis-flower-frontend.onrender.com'
           setStateLogin(true)
           localStorage.setItem("ACCESS_TOKEN", JSON.stringify(result.data.data.user.accesstoken))
           localStorage.setItem("REFRESH_TOKEN", JSON.stringify(result.data.data.user.refreshtoken))
