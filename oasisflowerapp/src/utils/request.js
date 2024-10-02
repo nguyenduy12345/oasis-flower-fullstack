@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-    baseURL: 'http://localhost:8080/api/v1/'
+    baseURL: 'https://oasis-flower-backend.onrender.com/api/v1/'
 });
 const token = localStorage.getItem("ACCESS_TOKEN");
 instance.defaults.headers.common["Authorization"] = "Bearer " + token;
