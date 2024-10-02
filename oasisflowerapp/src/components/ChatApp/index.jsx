@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import {marked} from 'marked'
 
 import run from '../../gemini'
@@ -8,6 +8,10 @@ import styles from './styles.module.scss'
 const ChatApp = ({setIsChat}) => {
   const [chat, setChat] = useState([])
   const [isLoading, setIsLoading] = useState(false)
+  const input = useRef(null)
+  useEffect(() => {
+    input?.current.focus()
+  })
     const [question, setQuestion] = useState('')
     const handleSendQuestion = async (e) => {
         setIsLoading(true)
@@ -16,6 +20,7 @@ const ChatApp = ({setIsChat}) => {
         .then((res) => {
             setChat([...chat, {user: question, AI: marked.parse(res)}])
             setIsLoading(false)
+            setQuestion('')
         })
     }
   return (
@@ -30,7 +35,7 @@ const ChatApp = ({setIsChat}) => {
         ))}
       </div>
       <div className={styles["chat__input"]}>
-        <input placeholder='Enter your question...' onChange={(e) => setQuestion(e.target.value)} value={question} />
+        <input ref={input} placeholder='Enter your question...' onChange={(e) => setQuestion(e.target.value)} value={question} />
         <button onClick={handleSendQuestion}>{isLoading ? 'Loading...' : 'Send'}</button>
       </div>
     </div>
