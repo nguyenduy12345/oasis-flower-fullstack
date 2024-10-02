@@ -48,7 +48,7 @@ const Products = () => {
           index >= (page - 1) * n && index <= page * n - 1
       )
     );
-  },[type || crrPage]);
+  },[type, crrPage]);
   const handleChange = (event, value) => {
       setSearchParams({type: filter, page: `${value}`});
       setPage(value);
