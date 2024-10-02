@@ -127,7 +127,8 @@ const AdminProduct = () => {
               <th scope="col">Name</th>
               <th scope="col">Image</th>
               <th scope="col">Type</th>
-              <th scope="col">Price</th>
+              <th scope="col">PriceEN</th>
+              <th scope="col">PriceVI</th>
               <th scope="col">Actions</th>
             </tr>
           </thead>
@@ -139,6 +140,7 @@ const AdminProduct = () => {
                     <td><img src={item.image} style={{width: "100px", height:"100px"}}/></td>
                     <td>{item.type}</td>
                     <td>{item.priceEN + '$'} </td>
+                    <td>{item.priceVI + 'VNĐ'} </td>
                     <td>
                         <i onClick={() => handleEditProduct(item)} className="fa-solid fa-pen-to-square"></i>
                         <i onClick={() => handleDeleteProduct(item._id)} className="fa-solid fa-trash"></i>
