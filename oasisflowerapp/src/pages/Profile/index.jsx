@@ -1,6 +1,6 @@
 import { memo, useState, useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 // import FormData from 'form-data'
 
 import instance, {
@@ -15,6 +15,7 @@ const Profile = () => {
   const { isDark } = useContext(Theme);
   const { i18n } = useTranslation();
   const getLogin = JSON.parse(localStorage.getItem("USER_LOGIN"));
+  const [isAdmin, setIsAdmin] = useState(false)
   const [changePassword, setChangePassword] = useState(false);
   const [changeType, setChangeType] = useState(false);
   const [changeTypeNewPass, setChangeTypeNewPass] = useState(false);
@@ -40,6 +41,9 @@ const Profile = () => {
         const result = await instance.get("profile");
         setUser(result?.data?.user);
         localStorage.setItem('USER_AVATAR', JSON.stringify(result.data.user.avatar))
+        if(result?.data?.user.role.includes('admin')){
+          setIsAdmin(true)
+        }
       } catch (error) {
         console.log(error);
       }
@@ -144,6 +148,11 @@ const Profile = () => {
             <li onClick={() => openEditPassword()}>
               {i18n.language == "vi" ? "Thay đổi mật khẩu" : "Change Password"}
             </li>
+            {isAdmin && <li>
+              <Link to="/admin/products?pageNumber=1&pageSize=15" >
+                {i18n.language == "vi" ? "Trang quản lý" : "Admin page"}
+              </Link>
+            </li> }
           </ul>
           <ul className={`${styles["profile__infomation"]} col-xs-9 col-sm-9`}>
             <li className={styles["profile__avatar"]}>

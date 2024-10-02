@@ -1,4 +1,4 @@
-import { memo, useContext} from "react";
+import { memo, useContext, useCallback} from "react";
 import { useTranslation } from "react-i18next";
 
 import { CartProduct, MessageContext} from '/src/stores'
@@ -9,7 +9,7 @@ import instance from "../../utils/request.js";
 import styles from "./styles.module.scss";
 
 const Cart = ({setIsCart}) => {
-  const { cartProduct, setCartProduct } = useContext(CartProduct)
+  const { cartProduct, setCartProduct, setFetchProduct } = useContext(CartProduct)
   const { setMessageNotifi } = useContext(MessageContext)
   const {i18n} = useTranslation()
   const total = cartProduct && cartProduct.reduce((init, item) => {
@@ -25,7 +25,7 @@ const Cart = ({setIsCart}) => {
       const result = await instance.delete(`carts?productId=${id}`)
       setMessageNotifi(i18n.language == 'vi' ? 'Bạn đã xóa một sản phẩm' : 'Product removed')
       setTimeout(() => setMessageNotifi(undefined),1000)
-      setCartProduct(result.data.products)
+      setFetchProduct(id)
     } catch (error) {
       console.log(error)
     }
@@ -34,7 +34,7 @@ const Cart = ({setIsCart}) => {
     if(quantity === 1){
      try {
       const res = await instance.delete(`carts?productId=${id}`)
-      setCartProduct(res.data.products)
+      setFetchProduct(res.data.products)
      } catch (error) {
       console.log(error)
      }
@@ -44,7 +44,7 @@ const Cart = ({setIsCart}) => {
           productId: id,
           quantity: quantity - 1
         })
-        setCartProduct(res.data.products)
+        setFetchProduct(quantity--)
       } catch (error) {
         console.log(error)
       }
@@ -56,7 +56,7 @@ const Cart = ({setIsCart}) => {
         productId: id,
         quantity: quantity + 1
       })
-      setCartProduct(res.data.products)
+      setFetchProduct(quantity++)
     } catch (error) {
       console.log(error)
     }

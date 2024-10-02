@@ -12,7 +12,7 @@ import styles from './styles.module.scss'
 const ProductView = ({dataItem, setDataItem }) => {
     const [searchParams, setSearchParams] = useSearchParams()
     const accountLogin = localStorage.getItem('USER_LOGIN') ? JSON.parse(localStorage.getItem('USER_LOGIN')) : null
-    const { setCartProduct} = useContext(CartProduct)
+    const { setCartProduct, setFetchProduct} = useContext(CartProduct)
     const [getImage, setGetImage] = useState()
     const [ getSize, setGetSize] = useState('S')
     const [inputNote, setInputNote] = useState('')
@@ -40,13 +40,18 @@ const ProductView = ({dataItem, setDataItem }) => {
     const handleGetData = async() =>{
         if(accountLogin){
             try {
-                const result = await instance.post('carts', {
+                await instance.post('carts', {
                     productId: dataItem._id,
                     quantity,
                     size: getSize,
                     note: inputNote
                 })
-                setCartProduct(result.data.products)
+                setFetchProduct({
+                    productId: dataItem._id,
+                    quantity,
+                    size: getSize,
+                    note: inputNote
+                })
                 setMessageNotifi(i18n.language == 'vi' ? 'Thêm giỏ hàng thành công' : 'Added product successfully')
                 setTimeout(() =>{setMessageNotifi(undefined)},1000)
                 setIsMessage(false)

@@ -45,9 +45,6 @@ const ForgotPassword = ({setIsLogin, setForgotPassword}) => {
       setMessage(i18n.language == 'vi' ? 'Email này không tồn tại' : 'Email is not exist')
     })
   }
-  const handleForgotPassword = () => {
-    
-  }
   return (
     <div className={styles["box__login"]}>
       <div className={styles["form"]}>

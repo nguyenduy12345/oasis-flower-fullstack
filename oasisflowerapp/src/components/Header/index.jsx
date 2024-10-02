@@ -36,7 +36,7 @@ const Header = () => {
   const [isCart, setIsCart] = useState(false);
   const [isNavSmall, setIsNavSmall] = useState(false);
   const { stateLogin, setStateLogin } = useContext(StateLogin);
-  const { cartProduct, setCartProduct } = useContext(CartProduct);
+  const { cartProduct, setCartProduct, setFetchProduct } = useContext(CartProduct);
   const [accountLogin, setAccountLogin ] = useState()
   const [avatarUser, setAvatarUser] = useState()
   const {t} = useTranslation('header')
@@ -61,16 +61,16 @@ const Header = () => {
       window.removeEventListener("scroll", setPosition);
     };
   }, []);
-  const handleLogOut = () => {
-    setIsLogin(true);
-    setStateLogin('logout success');
-    setCartProduct([])
-    localStorage.removeItem("CART");
-    localStorage.removeItem("USER_LOGIN")
-    localStorage.removeItem("USER_AVATAR")
-    localStorage.removeItem("ACCESS_TOKEN")
-    localStorage.removeItem("REFRESH_TOKEN")
-  }
+  const handleLogOut = useCallback(() => {
+      setIsLogin(true);
+      setStateLogin('logout success');
+      setFetchProduct([])
+      localStorage.removeItem("CART");
+      localStorage.removeItem("USER_LOGIN")
+      localStorage.removeItem("USER_AVATAR")
+      localStorage.removeItem("ACCESS_TOKEN")
+      localStorage.removeItem("REFRESH_TOKEN")
+  },[])
   return (
     <>
       {isLogin && <LoginForm setIsLogin={setIsLogin} setForgotPassword={setForgotPassword} />}

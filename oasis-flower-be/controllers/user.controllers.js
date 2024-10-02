@@ -161,7 +161,7 @@ const getUser = async (req, res) => {
   const { username } = req.data;
   try {
     const user = await findUserDB({ username });
-    const { email, avatar, phonenumber, address } = user;
+    const { email, avatar, phonenumber, address, role } = user;
     res.status(200).send({
       user: {
         username,
@@ -169,6 +169,7 @@ const getUser = async (req, res) => {
         avatar,
         phonenumber,
         address,
+        role
       },
     });
   } catch (error) {
