@@ -6,7 +6,6 @@ export const CartProduct = createContext({})
 const CartProductProvider = ({ children }) => {
   const [cartProduct, setCartProduct] = useState([])
   const [fetchProduct, setFetchProduct] = useState()
-  console.log(fetchProduct)
     useEffect(() => {
       const fetchCart = async() => {
           const result = await instance.get('/carts')
