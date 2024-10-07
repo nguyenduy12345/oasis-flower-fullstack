@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com');
 @import url('https://fonts.gstatic.com');
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
-@import './styles/variables.scss';
 
 *{
     padding: 0;

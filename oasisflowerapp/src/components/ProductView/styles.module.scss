@@ -131,6 +131,16 @@ i{
                     background-color: $background-color2;
                 }
             }
+            &__option--active{
+                cursor: pointer;
+                border: $border1;
+                text-align: center;
+                width: 70px;
+                height: 40px;
+                font-weight: bold;
+                @include flex-center();
+                background-color: $background-color2
+            }
         }
         .accessories{
             ul{
@@ -213,7 +223,6 @@ i{
             &--small{
                 display: block;
                 border: none;
-                // justify-content: space-around;
                 li{
                     margin: 0 0 5px 5px;
                 }

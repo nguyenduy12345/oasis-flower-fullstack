@@ -113,12 +113,15 @@ $border-radius: 15px;
             padding-left: 20px 
         }
         button{
+            a{
             @include flex-center();
             color: $color-text;
             font-weight: bold;
             margin-right: 10px;
+            font-size: 1rem;
             &:hover{
                 color: $background-color3;
+            }
             }
         }
     }

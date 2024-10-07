@@ -1,4 +1,4 @@
-import { memo, useCallback, useRef, useContext} from 'react'
+import { memo, useCallback, useRef, useContext, useState} from 'react'
 import {  useSearchParams, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import instance, {createAxiosResponseInterceptor} from '../../utils/request.js';
@@ -11,6 +11,7 @@ const Filter = ({types, setFilter, setData, setIsFilPrice, products, setPage}) =
     const filterBox = useRef()
     const inputMin = useRef(null)
     const inputMax = useRef(null)
+    const [isToggle, setIsToggle] = useState()
     const {t, i18n} = useTranslation('filter')
     const handleOpenFilter = useCallback(() =>{
         filterBox.current.style.display = "block"
@@ -28,6 +29,7 @@ const Filter = ({types, setFilter, setData, setIsFilPrice, products, setPage}) =
       setFilter(key)
       setIsFilPrice(false)
       setPage(1)
+      setIsToggle(key)
     }
     // GET ALL PRODUCTS
     const handleFilterAll = () =>{
@@ -38,38 +40,42 @@ const Filter = ({types, setFilter, setData, setIsFilPrice, products, setPage}) =
       setPage(1)
     }
     // FILTER CHARACTER
-    const handleFilterAtoZ = () =>{
+    const handleFilterAtoZ = (e) =>{
       setSearchParams({type: 'a_z', page:'1'})
       setFilter('AtoZ')
       setIsFilPrice(false)
       const sortChacracter = products.sort((a, b) => a.name.localeCompare(b.name))
       setData(sortChacracter)
       setPage(1)
+      setIsToggle(e.target.name)
     }
-    const handleFilterZtoA = () =>{
+    const handleFilterZtoA = (e) =>{
       setSearchParams({type: 'z_a', page:'1'})
       setFilter('ZtoA')
       setIsFilPrice(false)
       const reverseChacracter = products.sort((a, b) => b.name.localeCompare(a.name))
       setData(reverseChacracter)
       setPage(1)
+      setIsToggle(e.target.name)
     }
     // FILTER BY PRICE
-    const handleFilterPriceAscending = () =>{
+    const handleFilterPriceAscending = (e) =>{
       setSearchParams({type: 'price_ascending', page:'1'})
       setFilter('price_ascending')
       setIsFilPrice(false)
       const sortPriceAscen = products.sort((a, b) => +a.priceEN - +b.priceEN)
       setData(sortPriceAscen)
       setPage(1)
+      setIsToggle(e.target.name)
     }
-    const handleFilterPriceDecreasing = () =>{
+    const handleFilterPriceDecreasing = (e) =>{
       setSearchParams({type: 'price_decreasing', page:'1'})
       setFilter('price_decreasing')
       setIsFilPrice(false)
       const sortPricedecre = products.sort((a, b) => +b.priceEN - +a.priceEN)
       setData(sortPricedecre)
       setPage(1)
+      setIsToggle(e.target.name)
     }
     const handleFilterPriceRange = () =>{
       setSearchParams({min: `${inputMin.current?.value}`, max: `${inputMax.current?.value}`})
@@ -103,6 +109,7 @@ const Filter = ({types, setFilter, setData, setIsFilPrice, products, setPage}) =
         <ul>
           {keys.map((key)=> (
               <li
+                className={isToggle === key ? styles['active'] : ''}
                 onClick={() => handleFilterType(key)} 
                 key={key}
               >{key}</li>
@@ -111,13 +118,13 @@ const Filter = ({types, setFilter, setData, setIsFilPrice, products, setPage}) =
       </div>
       <div className={styles["filter__item"]}>
         <p>{t('alpha.title')}</p>
-        <button onClick={handleFilterAtoZ}>{t('alpha.charAZ')}</button>
-        <button onClick={handleFilterZtoA}>{t('alpha.charZA')}</button>
+        <button onClick={handleFilterAtoZ} className={isToggle === t('alpha.charAZ') ? styles['active'] : ''} name={t('alpha.charAZ')}>{t('alpha.charAZ')}</button>
+        <button onClick={handleFilterZtoA} className={isToggle === t('alpha.charZA') ? styles['active'] : ''} name={t('alpha.charZA')}>{t('alpha.charZA')}</button>
       </div>
       <div className={styles["filter__item"]}>
         <p>{t('price.title')}</p>
-        <button onClick={handleFilterPriceAscending} >{t('price.up')}</button>
-        <button onClick={handleFilterPriceDecreasing} >{t('price.down')}</button>
+        <button onClick={handleFilterPriceAscending} className={isToggle === t('price.up') ? styles['active'] : ''} name={t('price.up')} >{t('price.up')}</button>
+        <button onClick={handleFilterPriceDecreasing} className={isToggle === t('price.down') ? styles['active'] : ''} name={t('price.down')} >{t('price.down')}</button>
         <p>{t('price-range.title')}</p>
         <input type="number" placeholder={t('price-range.min')} ref={inputMin}/> <br />
         <input type="number" placeholder={t('price-range.max')} ref={inputMax}/>

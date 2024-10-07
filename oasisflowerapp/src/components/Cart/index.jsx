@@ -1,5 +1,6 @@
-import { memo, useContext, useCallback} from "react";
+import { memo, useContext } from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 import { CartProduct, MessageContext} from '/src/stores'
 import { CartItem } from '/src/components'
@@ -9,7 +10,7 @@ import instance from "../../utils/request.js";
 import styles from "./styles.module.scss";
 
 const Cart = ({setIsCart}) => {
-  const { cartProduct, setCartProduct, setFetchProduct } = useContext(CartProduct)
+  const { cartProduct,  setFetchProduct } = useContext(CartProduct)
   const { setMessageNotifi } = useContext(MessageContext)
   const {i18n} = useTranslation()
   const total = cartProduct && cartProduct.reduce((init, item) => {
@@ -22,7 +23,7 @@ const Cart = ({setIsCart}) => {
   }, 0) 
   const handleRemoveItemCart = async(id) =>{
     try {
-      const result = await instance.delete(`carts?productId=${id}`)
+      await instance.delete(`carts?productId=${id}`)
       setMessageNotifi(i18n.language == 'vi' ? 'Bạn đã xóa một sản phẩm' : 'Product removed')
       setTimeout(() => setMessageNotifi(undefined),1000)
       setFetchProduct(id)
@@ -91,7 +92,7 @@ const Cart = ({setIsCart}) => {
       </div>
       <div className={styles["cart__footer"]}>
         <p>{i18n.language == 'en' ? `Total: ${total}$` : `Tổng: ${new Intl.NumberFormat().format(total)} VNĐ` }</p>
-        <button className="btn font-weight-semibold">{i18n.language == 'en' ? 'Check Out' : 'Thanh toán' }</button>
+        <button onClick={() => setIsCart(false)} className="btn font-weight-semibold"><Link to="/cart">{i18n.language == 'en' ? 'Check Out' : 'Thanh toán' }</Link></button>
       </div>
     </div>
   );

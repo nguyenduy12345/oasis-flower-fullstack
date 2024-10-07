@@ -8,6 +8,8 @@ dotenv.config()
 import userRoute from './routes/user.routes.js'
 import productRoute from './routes/product.routes.js'
 import cartRoute from './routes/cart.routes.js'
+import discountRoute from './routes/discount.routes.js'
+import orderRoute from './routes/order.routes.js'
 
 import authMiddleware from './middlewares/auth.middlewares.js'
 
@@ -41,6 +43,8 @@ app.use(authMiddleware.authentication)
 app.use('/api/v1', userRoute)
 app.use('/api/v1', productRoute)
 app.use('/api/v1', cartRoute)
+app.use('/api/v1', discountRoute)
+app.use('/api/v1', orderRoute)
 
 app.listen(PORT, (err) => {
     if(err) throw new Error("Can't running server")

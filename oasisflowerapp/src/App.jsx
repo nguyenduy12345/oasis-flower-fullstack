@@ -13,8 +13,13 @@ const Register = lazy(() => import('./pages/Register'))
 const ErrorPage = lazy(() => import('/src/pages/ErrorPage'))
 const Occasions = lazy(() => import('./pages/Occasions'))
 const Profile = lazy(() => import('./pages/Profile'))
+const CartPage = lazy(() => import('./pages/CartPage'))
+const Orders = lazy(() => import('./pages/OrdersPage'))
 const AdminProduct = lazy(() => import('./pages/AdminProduct'))
 const AdminUser = lazy(() => import('./pages/AdminUser'))
+const AdminDiscount = lazy(() => import('./pages/AdminDiscount'))
+const AdminOrder = lazy(() => import('./pages/AdminOrder'))
+
 
 import { StyleViewProvider, StateLoginProvider, CartProductProvider, ThemeProvider, MessageContextProvider } from './stores';
 
@@ -40,9 +45,13 @@ function App() {
           <Route path='/occasions' element={<Occasions />} />
           <Route path='/register' element={<Register />} />
           <Route path='/profile' element={<Profile />} />
+          <Route path='/cart' element={<CartPage />} />
+          <Route path='/orders' element={<Orders />} />
           <Route path="/admin">
             <Route path='products' element={<AdminProduct />} />
             <Route path='users' element={<AdminUser />} />
+            <Route path='discount' element={<AdminDiscount />} />
+            <Route path='orders' element={<AdminOrder />} />
           </Route>
           <Route path='*' element={<ErrorPage />} />
         </Routes>

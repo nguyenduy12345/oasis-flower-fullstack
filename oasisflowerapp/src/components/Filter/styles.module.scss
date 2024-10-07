@@ -5,6 +5,9 @@ i.close__filter{
 i.filter{
     display: none;
 }
+.active{
+    background: $background-color2
+}
 .filter{
     margin-top: 10px;
     background: var(--background-filter);
@@ -29,6 +32,9 @@ i.filter{
         li:hover{
             background: $background-color2;
         }
+        li.active{
+            background: $background-color2
+        }
         p{
             margin: 0;
             color: var(--main-text);
@@ -50,6 +56,13 @@ i.filter{
             &:hover{
                 background: $background-color2;
             }
+        }
+        button.active{
+            width: 100%;
+            margin-bottom: 5px;
+            font-size: 0.8rem;
+            border: none;
+            background: $background-color2;
         }
     }
     &__item:last-child{

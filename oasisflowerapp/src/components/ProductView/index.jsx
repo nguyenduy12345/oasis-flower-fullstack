@@ -19,7 +19,9 @@ const ProductView = ({dataItem, setDataItem }) => {
     const [quantity, setQuantity] = useState(1)
     const [isMessage, setIsMessage] = useState(false)
     const [isLogin, setIsLogin] = useState(false)
+    const [activeSize, setActiveSize] = useState()
     const { setMessageNotifi } = useContext(MessageContext)
+    const listSize = ['S', 'M', 'L']
     const bigImg = useRef()
     const zoomImg = useRef()
     const { t, i18n } = useTranslation('productview')
@@ -27,6 +29,7 @@ const ProductView = ({dataItem, setDataItem }) => {
         setDataItem(null)
         setSearchParams('')
     },[])
+    
     const handleMinusQuantity = useCallback(() =>{
         if(quantity > 1){
            setQuantity(quantity - 1)
@@ -69,7 +72,14 @@ const ProductView = ({dataItem, setDataItem }) => {
             let timeout = setTimeout(() => setIsMessage(false), 10000)
         }
     }
-    const changeZoomUp = useCallback((event) => {
+    // Toggle button Size
+    const handleToggleSize = (e) => {
+        e.preventDefault()
+        setGetSize(e.target.id)
+        setActiveSize(e.target.id)
+    }
+    // Zoom img
+    const changeZoomUp = (event) => {
         zoomImg.current.style.opacity = 1
         zoomImg.current.style.zIndex = 99
         // GET POSITION ZOOM IMG
@@ -84,11 +94,11 @@ const ProductView = ({dataItem, setDataItem }) => {
         let translateX = -(positionMouseX - 50) / 2.5
         let translateY = -(positionMouseY - 50) / 2.5
         zoomImg.current.style.transform = `scale(1.9) translate(${translateX}% , ${translateY}%)`
-    },[])
-    const changeZoomDown = useCallback(() => {
+    }
+    const changeZoomDown = () => {
         zoomImg.current.style.opacity = 0
         zoomImg.current.style.transform = `scale(0)`
-    },[])
+    }
     return (
         <>  
         {isLogin && <LoginForm setIsLogin={setIsLogin} />}
@@ -119,9 +129,9 @@ const ProductView = ({dataItem, setDataItem }) => {
                     </ul>
                     <span className={styles["attribute__title"]}>{t('size')}</span>
                     <ul className={styles["size"]}>
-                        <li onClick={(e) => setGetSize(e.target.id)} className={styles["size__option"]} id='S'>S</li>
-                        <li onClick={(e) => setGetSize(e.target.id)} className={styles["size__option"]} id='M'>M</li>
-                        <li onClick={(e) => setGetSize(e.target.id)} className={styles["size__option"]} id='L'>L</li>
+                        {listSize.map(size => (
+                            <li onClick={handleToggleSize} key={size} className={getSize === size ? styles["size__option--active"] : styles["size__option"]} id={size}>{size}</li>
+                        ))}
                     </ul>
                 <div className={styles["accessories"]}>
                     <span className={styles["attribute__title"]}>{t('accessories')}</span>

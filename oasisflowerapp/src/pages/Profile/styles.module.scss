@@ -21,7 +21,6 @@
             margin-bottom: 5px;
             padding: 10px;
             color: var(--main-text);
-            text-align: center;
             font-weight: bold;
             text-transform: uppercase;
             border-bottom: 2px solid var(--main-text);
@@ -29,6 +28,9 @@
             font-size: 0.7rem;
             &:hover{
                 border-bottom-color: $background-color3;
+            }
+            a{
+                color: var(--main-text);
             }
         }
     }

@@ -148,6 +148,11 @@ const Profile = () => {
             <li onClick={() => openEditPassword()}>
               {i18n.language == "vi" ? "Thay đổi mật khẩu" : "Change Password"}
             </li>
+            <li>
+              <Link to="/orders?pageNumber=1&pageSize=15">
+              {i18n.language == "vi" ? "Đơn hàng" : "Orders"}
+              </Link>
+            </li>
             {isAdmin && <li>
               <Link to="/admin/products?pageNumber=1&pageSize=15" >
                 {i18n.language == "vi" ? "Trang quản lý" : "Admin page"}

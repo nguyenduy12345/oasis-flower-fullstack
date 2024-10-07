@@ -45,7 +45,6 @@ const LoginForm = ({ setIsLogin, setForgotPassword}) => {
   const handleMouseDownPassword = useCallback((event) => {
     event.preventDefault();
   }, [])
-
   const handleSubmitForm = async () =>{
     await instance.post('login', account)
     .then((result) => {

@@ -109,6 +109,8 @@ const AdminProduct = () => {
       <div className={styles["profile__menu"]}>
         <Link to="/admin/products?pageNumber=1&pageSize=15">Products</Link>
         <Link to="/admin/users?pageNumber=1&pageSize=15">Users</Link>
+        <Link to="/admin/orders?pageNumber=1&pageSize=15">Orders</Link>
+        <Link to="/admin/discount?pageNumber=1&pageSize=15">Discount Code</Link>
       </div>
       {/* {isLogin ? "" : <Navigate to="/signin" />} */}
       <div className={styles["profile__actions"]}>

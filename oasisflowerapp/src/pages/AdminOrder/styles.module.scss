@@ -4,9 +4,9 @@
     justify-content: center;
     align-items: center;
 }
-.profile{
+.order{
     width: 100vw;
-    min-width: 100vw;
+    min-width: 1300px;
     display: flex;
     margin-left: 40px;
     margin-bottom: 40px;
@@ -26,34 +26,54 @@
             margin-bottom: 10px;
         }
     }
-    &__actions{
-        width: 80%;
-        padding: 0 40px;
-        margin-top: 50px;
-        text-align: center;
-    }
-    table{
-        border: 1px solid #000000;
-        font-weight: 400;
-        font-family: "Inter" sans-serif;
-        font-size: 20px;
-        color: #000000;
-        thead{
-            th:nth-child(2),
-            th:nth-child(3),
-            th:nth-child(4){
-                width: 20%;
-            }
+    .order__container{
+        margin-top: 30px;
+        margin-left: 20px;
+        width: 75%;
+        display: flex;
+        flex-direction: column;
+        h5{
+            font-size: 1.3rem;
+            color: var(--main-text);
+            font-weight: bold;
+            padding-bottom: 5px;
+            border-bottom: 1px solid black;
+            margin-right: 50px;
         }
-        tbody{
-            td:last-child{
+    }
+    &__list{
+        height: 450px;
+        overflow-y: scroll;
+        table{
+            
+            tr{
+                height: max-content;
+            }
+            td{
+                height: max-content;
+            }
+            th{
+                text-align: center;
+            }
+            td:nth-child(2){
+                text-align: left;
+            }
+            td:nth-child(9){
+                display: flex;
+                justify-content: space-around;
                 button{
-                    padding: 5px 20px;
+                    outline: none;
                     border: none;
+                    padding: 3px 20px;
+                    border-radius: 15px;
                     &:hover{
                         background-color: $background-color3;
                     }
                 }
+            }
+            td:last-child{
+                padding: 0 5px;
+                align-items: center;
             }
         }
     }

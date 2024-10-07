@@ -21,7 +21,9 @@ const handleAddCart = async (req, res) => {
   const { _id } = req.data
   const { productId, quantity, size, note, accessories} = req.body
   try {
-    let cart = await getCartDB({ user: _id });
+    let cart = await getCartDB({ user: _id }).populate(
+      "products.product"
+    );
     if(!cart){
         const newCart = new CartModel({ user: _id });
         await newCart.save()
@@ -58,7 +60,9 @@ const handleUpdateCart = async (req, res) => {
   const { _id } = req.data
   const { productId, quantity } = req.body
   try {
-    const cart = await getCartDB({ user: _id });
+    const cart = await getCartDB({ user: _id }).populate(
+      "products.product"
+    );;
     const productIndex = cart.products.findIndex(
       (item) => item.product._id.toString() === productId
     );
@@ -83,7 +87,9 @@ const handleDeleteCart = async (req, res) => {
   const { _id } = req.data
   const { productId } = req.query
   try {
-    const cart = await getCartDB({ user: _id });
+    const cart = await getCartDB({ user: _id }).populate(
+      "products.product"
+    );
     const productIndex = cart.products.findIndex(
       (item) => item.product._id.toString() === productId
     );

@@ -14,14 +14,18 @@ const orderSchema = new mongoose.Schema(
           ref: "products",
           required: true,
         },
+        accessories: [{
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "products",
+        }],
+        size: {type: String, required: true},
         quantity: {
           type: Number,
           required: true,
         },
-        price: {
-          type: Number,
-          required: true,
-        },
+        note: {
+          type: String
+        }
       },
     ],
     totalPrice: {
@@ -30,13 +34,20 @@ const orderSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["Pending", "Processing", "Shipped", "Delivered", "Cancelled"],
+      enum: ["Pending", "Processing", "Shipping", "Delivered", "Cancelled", "Deleted"],
       default: "Pending",
     },
     shippingAddress: { type: String },
-    paymentInfo: {
+    typePayment: {
       type: String,
+      default: 'COD'
     },
+    discount: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "discounts",
+      default: 0
+    },
+    deleted: {type: Boolean, default: false}
   },
   {
     timestamps: true,
@@ -45,4 +56,12 @@ const orderSchema = new mongoose.Schema(
 
 const OrderModel = mongoose.model(collections.ORDERS, orderSchema);
 
+const createOrderDB = (data) => OrderModel.create(data)
 const getOrderDB = (info) => OrderModel.find(info)
+const editOrderDB = (...args) => OrderModel.findOneAndUpdate(...args)
+
+export {
+  createOrderDB,
+  getOrderDB,
+  editOrderDB
+}

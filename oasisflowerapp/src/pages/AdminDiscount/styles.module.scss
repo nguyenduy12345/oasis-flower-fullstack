@@ -32,6 +32,34 @@
         margin-top: 50px;
         text-align: center;
     }
+    &__function{
+        display: flex;
+        justify-content: space-between;
+        input{
+            width: 50%;
+            height: 60px;
+            padding: 5px 20px;
+            margin-top: 20px;
+            outline: none;
+            border: none;
+            border-bottom: 1px solid black;
+        }
+        .add__new{
+            @include flex-center();
+            cursor: pointer;
+            width: 252.45px;
+            height: 58.53px;
+            border-radius: 50px;
+            background-color: $background-color3;
+            font-weight: 700;
+            letter-spacing: 0.5%;
+            font-size: 0.9rem;
+            margin: 20px 0;
+            &:hover{
+                background-color: $background-color2;
+            }
+        }
+    }
     table{
         border: 1px solid #000000;
         font-weight: 400;
@@ -53,6 +81,13 @@
                     &:hover{
                         background-color: $background-color3;
                     }
+                }
+            }
+            button{
+                padding: 5px 20px;
+                border: none;
+                &:hover{
+                    background-color: $background-color3;
                 }
             }
         }
