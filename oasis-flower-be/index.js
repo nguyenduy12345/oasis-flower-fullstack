@@ -23,7 +23,7 @@ console.log('database is connected')
 const PORT = process.env.PORT_LOCAL || 8080
 
 let corsOptions = {
-    origin: process.env.HOST_LOCAL,
+    origin: process.env.HOST,
 }
 
 const app = express()
