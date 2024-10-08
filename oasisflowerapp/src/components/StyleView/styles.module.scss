@@ -16,6 +16,11 @@
         color: var(--main-text);
     }
 }
+@media (max-width: 768px){
+    .icon__stylelist{
+        display: none;
+    }
+}
 @media (max-width: 992px){
     button:first-child{
         left: 220px;

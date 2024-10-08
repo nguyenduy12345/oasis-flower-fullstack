@@ -41,6 +41,7 @@ const Header = () => {
   const [avatarUser, setAvatarUser] = useState()
   const {t} = useTranslation('header')
   const header = useRef();
+  const { i18n } = useTranslation();
   useEffect(() => {
     const account = localStorage.getItem("USER_LOGIN") ? JSON.parse(localStorage.getItem("USER_LOGIN")) : ''
     const avatar = localStorage.getItem("USER_AVATAR") ? JSON.parse(localStorage.getItem("USER_AVATAR")) : ''
@@ -79,6 +80,7 @@ const Header = () => {
         {isSearching && (
           <Searching setIsSearching={setIsSearching} />
         )}
+        
         <div className={styles["header__navbar"]}>
           <div className={styles["header__category--mode"]}>
             <Language />
@@ -144,6 +146,7 @@ const Header = () => {
               </li>
             </ul>
           </div>
+          {/* NAVBAR - Small Screen */}
           {isNavSmall && (
             <ul className={styles["header__nav--small"]}>
               <i
@@ -151,49 +154,53 @@ const Header = () => {
                 className={`${styles["icon__close"]} fa-solid fa-xmark`}
               />
               <NavLink
+                onClick={() => setIsNavSmall(false)}
                 to="/home"
                 className={({ isActive }) => (isActive ? activeLink : "")}
               >
                 <li className={styles["nav__item"]}>{t('nav.home')}</li>
               </NavLink>
               <NavLink
-                to="/flowers"
+                onClick={() => setIsNavSmall(false)}
+                to="/products/flowers"
                 className={({ isActive }) => (isActive ? activeLink : "")}
               >
                 <li className={styles["nav__item"]}>{t('nav.nav-1')}</li>
               </NavLink>
               <NavLink
-                to="/cakes"
+                onClick={() => setIsNavSmall(false)}
+                to="/products/cakes"
                 className={({ isActive }) => (isActive ? activeLink : "")}
               >
                 <li className={styles["nav__item"]}>{t('nav.nav-2')}</li>
               </NavLink>
               <NavLink
-                to="/accessories"
+                onClick={() => setIsNavSmall(false)}
+                to="/products/accessories"
                 className={({ isActive }) => (isActive ? activeLink : "")}
               >
                 <li className={styles["nav__item"]}>{t('nav.nav-3')}</li>
               </NavLink>
               <NavLink
+                onClick={() => setIsNavSmall(false)}
                 to="/occasions"
                 className={({ isActive }) => (isActive ? activeLink : "")}
               >
                 <li className={styles["nav__item"]}>{t('nav.nav-4')}</li>
               </NavLink>
               <NavLink
+                onClick={() => setIsNavSmall(false)}
                 to="/about"
                 className={({ isActive }) => (isActive ? activeLink : "")}
               >
                 <li className={styles["nav__item"]}>{t('nav.nav-5')}</li>
               </NavLink>
-              <ul><li><Language /></li>
-              <li><DarkMode /></li>
-              <li><Weather /></li></ul>
-              
-              <li className={styles["nav__item"]}>User</li>
-              <li className={styles["nav__item"]}>Searching</li>
+              <li><Language /></li>
+              <li className={styles["nav__item"]}>{i18n.language == 'vi' ? 'Tài khoản' : 'User'}</li>
+              <li className={styles["nav__item"]}>{i18n.language == 'vi' ? 'Tìm kiếm' : 'Searching'}</li>
             </ul>
           )}
+          {/* NAVBAR - Big screen */}
           <ul className={styles["header__navbar_list"]}>
             <li className={styles["header__nav"]}>
               <NavLink

@@ -6,7 +6,6 @@ import { useTranslation } from "react-i18next";
 
 const Filter = lazy(() => import('/src/components/Filter'))
 const Product = lazy(() => import('/src/components/Product'))
-const ProductView = lazy(() => import('/src/components/ProductView'))
 const StyleView = lazy(() => import('/src/components/StyleView'))
 
 import { goToTop } from "/src/functions";

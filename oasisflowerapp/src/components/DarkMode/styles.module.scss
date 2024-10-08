@@ -48,11 +48,8 @@
         transform: translateX(24px);
     }
 }
-@media (max-width: 568px){
-    .mode {
-        &__icon{
-            height: 100%;
-            @include flex-center();
-        }
+@media (max-width: 992px){
+    .mode{
+        display: none;
     }
 }
