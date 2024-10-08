@@ -18,7 +18,7 @@
 }
 @media (max-width: 768px){
     .icon__stylelist{
-        display: none;
+        display: none !important;
     }
 }
 @media (max-width: 992px){
