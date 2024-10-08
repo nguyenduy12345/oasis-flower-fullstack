@@ -1,4 +1,4 @@
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { memo, useCallback, useContext, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -21,6 +21,7 @@ const ProductView = ({dataItem, setDataItem }) => {
     const [isLogin, setIsLogin] = useState(false)
     const [activeSize, setActiveSize] = useState()
     const { setMessageNotifi } = useContext(MessageContext)
+    const navigate = useNavigate()
     const listSize = ['S', 'M', 'L']
     const bigImg = useRef()
     const zoomImg = useRef()
@@ -40,7 +41,13 @@ const ProductView = ({dataItem, setDataItem }) => {
         setQuantity(quantity + 1)
         return;
     }, [quantity])
-    const handleGetData = async() =>{
+     // Toggle button Size
+     const handleToggleSize = (e) => {
+        e.preventDefault()
+        setGetSize(e.target.id)
+        setActiveSize(e.target.id)
+    }
+    const handleAddCart = async() =>{
         if(accountLogin){
             try {
                 await instance.post('carts', {
@@ -58,6 +65,7 @@ const ProductView = ({dataItem, setDataItem }) => {
                 setMessageNotifi(i18n.language == 'vi' ? 'Thêm giỏ hàng thành công' : 'Added product successfully')
                 setTimeout(() =>{setMessageNotifi(undefined)},1000)
                 setIsMessage(false)
+                
             } catch (error) {
                 setMessageNotifi(error.response.data.message)
                 setTimeout(() =>{setMessageNotifi(undefined)},1000)
@@ -72,11 +80,38 @@ const ProductView = ({dataItem, setDataItem }) => {
             let timeout = setTimeout(() => setIsMessage(false), 10000)
         }
     }
-    // Toggle button Size
-    const handleToggleSize = (e) => {
-        e.preventDefault()
-        setGetSize(e.target.id)
-        setActiveSize(e.target.id)
+    const handleBuyNow = async() => {
+        if(accountLogin){
+            try {
+                await instance.post('carts', {
+                    productId: dataItem._id,
+                    quantity,
+                    size: getSize,
+                    note: inputNote
+                })
+                setFetchProduct({
+                    productId: dataItem._id,
+                    quantity,
+                    size: getSize,
+                    note: inputNote
+                })
+                setMessageNotifi(i18n.language == 'vi' ? 'Thêm giỏ hàng thành công' : 'Added product successfully')
+                setTimeout(() =>{setMessageNotifi(undefined)},1000)
+                setIsMessage(false)
+                navigate('/cart')
+            } catch (error) {
+                setMessageNotifi(error.response.data.message)
+                setTimeout(() =>{setMessageNotifi(undefined)},1000)
+            }
+        }else{
+            setIsMessage(true)
+            setIsLogin(true)
+            setMessageNotifi(i18n.language == 'vi' ? 'Vui lòng đăng nhập!' : 'Please login!')
+            setTimeout(() =>{setMessageNotifi(undefined)},1000)
+            setSearchParams('')
+            clearTimeout(timeout)
+            let timeout = setTimeout(() => setIsMessage(false), 10000)
+        }
     }
     // Zoom img
     const changeZoomUp = (event) => {
@@ -149,7 +184,10 @@ const ProductView = ({dataItem, setDataItem }) => {
                 </div>
                 <span className={styles["attribute__title"]}>{t('notes')} </span>
                 <input value={inputNote} onChange={(e) => setInputNote(e.target.value)} className={styles["product__note"]} type="text" name="write_note" placeholder={t('notes-input')} />
-                <button onClick ={() => handleGetData()} className={styles["product__button"]}>{t('button')}</button>
+                <ul className={styles["product__function"]}>
+                    <li onClick ={handleAddCart}>{t('button')}</li>
+                    <li onClick ={handleBuyNow}>{i18n.language == 'vi' ? 'Mua Ngay' : 'Buy Now'}</li>
+                </ul>
                 { isMessage && <p className={styles['product__message']}>{t('message')}</p>}
                 <p className="message_add_cart"></p>
             </div>

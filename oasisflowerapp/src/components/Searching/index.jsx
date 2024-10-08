@@ -1,9 +1,8 @@
-import { useRef, useEffect, useState, memo, useCallback} from "react";
-import { useSearchParams } from "react-router-dom";
+import { useRef, useEffect, useState, memo} from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import instance from "../../utils/request.js";
 
-import { ProductView } from '/src/components'
 import debounce from "../../functions/Debounce"
 import styles from "./styles.module.scss";
 
@@ -19,7 +18,7 @@ const [dataItem, setDataItem] = useState(null)
 const [isIcon, setIsIcon] = useState(false)
 const [messageSearch, setMessageSearch] = useState(false)
 const [searchParams, setSearchParams] = useSearchParams()
-
+const navigate = useNavigate()
 const handleChangeSearching = (e) => {
   if(!e.target.value){
     setSearchParams(false)
@@ -54,10 +53,13 @@ const handleChangeSearching = (e) => {
   }
   fetchProducts()
   },[keyWord])
- 
+  const handleGoToProductViewPage = (id) => {
+    setSearchParams({ productId: id });
+    navigate(`/products?productId=${id}`)
+    setIsSearching(false)
+  }
   return (
     <>
-    {dataItem && <ProductView dataItem={dataItem} setDataItem={setDataItem}/>}
     <div ref={boxSearch} className={styles["searching"]}>
       <input
         ref={inputSearch}
@@ -76,7 +78,7 @@ const handleChangeSearching = (e) => {
         <i className="fa-solid fa-xmark"></i>
       </p>
       {searchingProducts.map((item) => (
-        <ul onClick={() => {setDataItem(item)}} key={item._id} className={`${styles["searching__product"]} mt-2`}>
+        <ul onClick={() => handleGoToProductViewPage(item._id)} key={item._id} className={`${styles["searching__product"]} mt-2`}>
         <div className={`${styles["searching__img"]} me-2`}>
           <li>
             <img src={item.image} />

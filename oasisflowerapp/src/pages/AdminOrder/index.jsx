@@ -157,7 +157,7 @@ const AdminOrder = () => {
                             </button>
                           </td>
                         ) : item.status === "Processing" ? (
-                          <td>
+                          <td style={{textAlign: "center"}}>
                             {item.status}{" "}
                             <button
                               onClick={() => handleShippingOrder(item._id)}
@@ -165,7 +165,7 @@ const AdminOrder = () => {
                               Shipping?
                             </button>
                           </td>
-                        ) : item.status}
+                        ) : <td>{item.status}</td>}
                       </tr>
                     ))
                   : []}

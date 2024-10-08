@@ -42,7 +42,7 @@ const getOrder = async (req, res) => {
       user: _id,
       status: ["Pending", "Processing", "Cancelled", "Shipping"],
       deleted: false
-    }).populate(["products.product", "discount"]);
+    }).populate(["products.product", "discount"]).sort({createdAt: -1});
     const orderDelivered = await getOrderDB({
       user: _id,
       status: "Delivered",

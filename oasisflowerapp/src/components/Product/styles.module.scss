@@ -3,6 +3,12 @@
     padding: 0;
     margin-bottom: 10px;
     max-width: 100vw;
+    &:hover > .product__image{
+        box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.5);
+    }
+    &:hover > .description{
+        box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.5);    
+    }
     &--row{
         display: flex;
         margin-bottom: 10px;
@@ -35,9 +41,9 @@
         height: 100%;
         transition: 1s;
     }
-    &:hover{
-        border: 1px solid yellow;
-    }
+    // &:hover{
+    //     box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.5);
+    // }
     &:hover > .product__view{
         bottom: 0;
     }

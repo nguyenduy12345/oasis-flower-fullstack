@@ -17,7 +17,7 @@ import {
 
 const getProduct = async (req, res) => {
   const { product } = req.params;
-  const { keyWord, type, pageNumber, pageSize } = req.query;
+  const { keyWord, type, pageNumber, pageSize, productId } = req.query;
   try {
     if (keyWord) {
       let regex = new RegExp(keyWord, "i");
@@ -42,6 +42,14 @@ const getProduct = async (req, res) => {
         },
       });
       return;
+    }
+    if(productId){
+      const product = await getProductDB({_id: productId})
+      if(!product) throw new Error("Can't find this product")
+        res.status(200).send({
+          product
+        });
+      return
     }
     if (pageNumber && pageSize) {
       const totalProducts = await countProductDB();

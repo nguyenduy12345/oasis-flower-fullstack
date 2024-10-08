@@ -16,6 +16,10 @@ const Cart = () => {
   const [listProduct, setListProduct] = useState([]);
   const [discount, setDiscount] = useState(0)
   const [code, setCode] = useState()
+  const [isChecked, setIsChecked] = useState(false)
+  const [itemIsChecked, setItemIsChecked] = useState()
+  const [products, setProducts] = useState([])
+  const [selectAll, setSelectAll] = useState(false);
   const [userInfo, setUserInfo] = useState({
     username: '',
     email: '',
@@ -35,19 +39,19 @@ const Cart = () => {
     fetchUserInfo()
   },[])
   // CSS for box checkout
-  // const setPosition = () => {
-  //   window.scrollY >= 300
-  //     ? ( (checkOut.current.style.position = "fixed"),
-  //     (checkOut.current.style.top = "180px"),
-  //     (checkOut.current.style.right = "40px"))
-  //     : (checkOut.current.style.position = "static")
-  // }
-  // useEffect(() => {
-  //   window.addEventListener("scroll", setPosition);
-  //   return () => {
-  //     window.removeEventListener("scroll", setPosition);
-  //   };
-  // }, []);
+  const setPosition = () => {
+    window.scrollY >= 200
+      ? ( (checkOut.current.style.position = "fixed"),
+      (checkOut.current.style.top = "180px"),
+      (checkOut.current.style.right = "40px"))
+      : (checkOut.current.style.position = "static")
+  }
+  useEffect(() => {
+    window.addEventListener("scroll", setPosition);
+    return () => {
+      window.removeEventListener("scroll", setPosition);
+    };
+  }, []);
   // Total price
   const total =
     listProduct &&
@@ -61,17 +65,36 @@ const Cart = () => {
     }, 0);
   // Total price payment
   const totalPayment = total - (total / 100 * (+discount.discount ? +discount.discount : 0) )
+  useEffect(() => {
+    const result = cartProduct.map((product) => ({ ...product, selected: false }))
+    setProducts(result)
+  },[cartProduct])
+  const handleSelectAll = () => {
+    setSelectAll(!selectAll);
+    setProducts(products.map(product => ({ ...product, selected: !selectAll })));
+    if(products.every(product => product.selected === true)){
+      setListProduct([])
+      return
+    }else{
+      setListProduct(cartProduct)
+    }
+  };
   const handleAddToCheckOut = (item) => {
     const findIndex =
       listProduct &&
       listProduct.findIndex((product) => product._id === item._id);
     if (findIndex === -1) {
       setListProduct([...listProduct, item]);
-      return;
     } else {
       setListProduct(listProduct.filter((product) => product._id !== item._id));
-      return;
     }
+    setProducts(products.map(product => {
+      if (product._id === item._id) {
+        return { ...product, selected: !product.selected };
+      } else {
+        return product;
+      }
+    }));
   };
   // Remove product cart
   const handleRemoveItemCart = async (item, id) => {
@@ -98,7 +121,7 @@ const Cart = () => {
     try {
       if (quantity === 1) {
         const res = await instance.delete(`carts?productId=${id}`);
-        setFetchProduct(res.data.products);
+        setFetchProduct(`${id} + ${quantity - 1}`);
         const findIndex =
           listProduct &&
           listProduct.findIndex((product) => product._id === item._id);
@@ -156,11 +179,6 @@ const Cart = () => {
         setMessage(err.response.data.message)
       })
   }
-  const handleSelectAllProduct = () => {
-    const result = cartProduct?.filter(item => listProduct.find(product => product?.product?._id !== item?.product?._id ))
-    console.log(result)
-    setListProduct(result)
-  }
   // Send order
   const handleCreateOrder = async() =>{
     await instance.post('/orders', {
@@ -189,6 +207,7 @@ const Cart = () => {
       }, 1000);
     })
   }
+  const cartLength = cartProduct ? cartProduct.reduce((init, item) => init + +item.quantity, 0) : ''
   return ( 
     <>
       <ul className={styles["cart__link"]}>
@@ -205,12 +224,14 @@ const Cart = () => {
       <div className={`${styles["cart"]} row`}>
       <h5>{i18n.language == "en" ? "Shopping Cart" : "Giỏ hàng"}</h5>
         <div className={`${styles["cart__list"]} col-xs-12 col-sm-12 col-lg-8`}>
-          {/* <input onChange={handleSelectAllProduct} type="checkbox" className={styles["select-all"]} id="select-all"/> <label className={styles["select-all"]} htmlFor="select-all">Select all {cartProduct.length} products </label> */}
-          {cartProduct.length > 0 ? (
-            cartProduct.map((item) => (
+          <input onChange={handleSelectAll} type="checkbox" className={styles["select-all"]} id="select-all"/> <label className={styles["select-all"]} htmlFor="select-all">Select all {cartLength} products </label>
+          {products.length > 0 ? (
+            products.map((item) => (
               <ul key={item.product._id} className={`${styles["cart__item"]}`}>
                 <input
                   type="checkbox"
+                  checked={item.selected}
+                  // checked={itemIsChecked && itemIsChecked === item._id ? true : isChecked ? isChecked : false }
                   onChange={() => handleAddToCheckOut(item)}
                 />
                 <li>
@@ -297,7 +318,7 @@ const Cart = () => {
           className={`${styles["cart__checkout"]} col-xs-12 col-sm-12 col-lg-4`}
         >
           <p className={styles["title"]}>{i18n.language == "en" ? "Proceed Checkout" : "Thanh Toán"}</p>
-          <div style={{ padding: "0 30px 0 30px" }}>
+          <div style={{ padding: "0 15px 0 15px" }}>
             <input
               onChange={(e) => setCode(e.target.value)}
               value={code}
@@ -306,7 +327,8 @@ const Cart = () => {
               className={styles["discount"]}
             />
             <button onClick={handleCheckDiscount}>{i18n.language == "en" ? "Apply" : "Áp dụng"}</button>
-            {message && <p style={{color: 'red'}}>{message}</p>}
+            <p style={{marginBottom: '5px', color: 'red'}}>{i18n.language == 'vi' ? 'Mã giảm giá của bạn: endgame' : 'Your discount code: endgame'}</p>
+            {message && <p style={{marginBottom: '5px', color: 'red'}}>{message}</p>}
             <ul>
               <li>{i18n.language == "en" ? "Total:" : "Tổng tiền: "}</li>
               <li>

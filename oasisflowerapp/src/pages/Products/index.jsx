@@ -4,7 +4,6 @@ import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import { useTranslation } from "react-i18next";
 
-// import { Filter, Product, ProductView, StyleView } from '/src/components';
 const Filter = lazy(() => import('/src/components/Filter'))
 const Product = lazy(() => import('/src/components/Product'))
 const ProductView = lazy(() => import('/src/components/ProductView'))
@@ -52,17 +51,12 @@ const Products = () => {
   const handleChange = (event, value) => {
       setSearchParams({type: filter, page: `${value}`});
       setPage(value);
-      goToTop();
+      goToTop()
   }
   const types = {};
   products.map((item) => (types[item.type] = 1));
   return (
     <>
-    <Suspense fallback={<p>Loading...</p>}>
-      {dataItem && (
-        <ProductView dataItem={dataItem} setDataItem={setDataItem} />
-      )}
-    </Suspense>
       <div className={`${styles["product"]} container row g-2 product`} data-theme={isDark ? 'dark' : 'light'}>
       <Suspense fallback={<p>Loading...</p>}>
         <Filter
@@ -95,7 +89,6 @@ const Products = () => {
               <Suspense key={item._id} fallback={<p>Loading...</p>}>
                 <Product
                   styleList={viewContext.styleList}
-                  setDataItem={setDataItem}
                   item={item}
                 />
               </Suspense>

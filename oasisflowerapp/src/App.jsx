@@ -2,7 +2,7 @@ import { Routes, Route} from 'react-router-dom'
 import { lazy, Suspense } from 'react'
 
 // Layout
-import { Header, Footer, MessageNotification } from './components'
+import { Header, Footer, MessageNotification} from './components'
 import  {Contact, BackToTop} from './components'
 import { ScrollToTop } from './components'
 
@@ -15,6 +15,7 @@ const Occasions = lazy(() => import('./pages/Occasions'))
 const Profile = lazy(() => import('./pages/Profile'))
 const CartPage = lazy(() => import('./pages/CartPage'))
 const Orders = lazy(() => import('./pages/OrdersPage'))
+const ProductView = lazy(() => import('./pages/ProductView'))
 const AdminProduct = lazy(() => import('./pages/AdminProduct'))
 const AdminUser = lazy(() => import('./pages/AdminUser'))
 const AdminDiscount = lazy(() => import('./pages/AdminDiscount'))
@@ -40,6 +41,7 @@ function App() {
           <Route path='/home' element={<Home />} />
           <Route path="/products">
             <Route path=':productName' element={<Products />} />
+            <Route path='' element={<ProductView />} />
           </Route>
           <Route path='/about' element={<About />} />
           <Route path='/occasions' element={<Occasions />} />
